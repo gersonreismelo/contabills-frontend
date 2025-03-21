@@ -1,0 +1,25 @@
+@import '../../app.component.scss';
+
+.sobre {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    color: $cor-texto-escuro;
+    font-family: Arial, sans-serif;
+
+    h1 {
+        margin-bottom: 1rem;
+        color: $cor-primaria;
+        font-size: 2rem;
+    }
+
+    p {
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        text-align: justify;
+
+        strong {
+            color: $cor-botao-positivo;
+        }
+    }
+}

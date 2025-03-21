@@ -1,0 +1,61 @@
+<div class="empresas">
+  <h1>Empresas</h1>
+
+  <div class="empresas__barra-pesquisa">
+    <input type="text" [(ngModel)]="termoDeBusca" placeholder="Buscar empresa..." />
+  </div>
+
+  <div class="empresas__botao">
+    <button class="empresas__botao--adicionar" (click)="navegarParaAdicionarEmpresa()">Nova Empresa</button>
+  </div>
+
+  <div *ngFor="let empresa of empresasFiltradas">
+    <button class="empresas__cartao" (click)="navegarParaEmpresa(empresa)">
+      <div class="empresas__cartao-info">
+        <div class="empresas__cartao-info--dados">
+          <h2>{{ empresa.razaoSocial }}</h2>
+          <p><strong>Tipo de Empresa:</strong> {{ empresa.tipoEmpresa }}</p>
+          <p><strong>CNPJ:</strong> {{ empresa.cnpj }}</p>
+          <p><strong>IPTU:</strong> {{ empresa.iptu }}</p>
+          <p><strong>Email:</strong> {{ empresa.email }}</p>
+          <p><strong>Telefone:</strong> {{ empresa.telefone }}</p>
+          <p><strong>Capital Social:</strong> R$ {{ empresa.capitalSocialEmpresa | number:'1.2-2' }}</p>
+          <p><strong>Possui Procuração:</strong> {{ empresa.possuiProcuracao ? 'Sim' : 'Não' }}</p>
+          <p><strong>Possui Certificado:</strong> {{ empresa.possuiCertificado ? 'Sim' : 'Não' }}</p>
+        </div>
+        <div class="empresas__cartao-info--endereco">
+          <h3 class="empresas__cartao-info--endereco--subtitulo">Endereço da Empresa</h3>
+          <div class="empresas__cartao-info--endereco--card">
+            <p>{{ empresa.enderecoEmpresa.logradouro }}, {{ empresa.enderecoEmpresa.numero }}, {{
+              empresa.enderecoEmpresa.complemento }}</p>
+            <p>{{ empresa.enderecoEmpresa.bairro }} - {{ empresa.enderecoEmpresa.cidade }} / {{
+              empresa.enderecoEmpresa.uf
+              }} - CEP: {{ empresa.enderecoEmpresa.cep }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="empresas__cartao-info">
+        <div *ngIf="empresa.socios.length > 0" class="empresas__cartao-info--socios">
+          <h3 class="empresas__cartao-info--endereco--subtitulo">Sócios</h3>
+          <div *ngFor="let socio of empresa.socios" class="empresas__cartao-info--socios--card">
+            <p><strong>Nome:</strong> {{ socio.nome }}</p>
+            <p><strong>CPF:</strong> {{ socio.cpf }}</p>
+            <p><strong>Nacionalidade:</strong> {{ socio.nacionalidade }}</p>
+            <p><strong>Profissão:</strong> {{ socio.profissao }}</p>
+          </div>
+        </div>
+
+        <div *ngIf="empresa.parcelamentos.length > 0" class="empresas__cartao-info--parcelamentos">
+          <h3 class="empresas__cartao-info--endereco--subtitulo">Parcelamentos</h3>
+          <div *ngFor="let parcelamento of empresa.parcelamentos" class="empresas__cartao-info--parcelamentos--card">
+            <p><strong>Número do Parcelamento:</strong> {{ parcelamento.numeroParcelamento }}</p>
+            <p><strong>Tipo:</strong> {{ parcelamento.tipoParcelamento }}</p>
+            <p><strong>Valor por Parcela:</strong> R$ {{ parcelamento.valorParcela | number:'1.2-2' }}</p>
+            <p><strong>Enviado no Mês Atual:</strong> {{ parcelamento.enviadoMesAtual ? 'Sim' : 'Não' }}</p>
+          </div>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>

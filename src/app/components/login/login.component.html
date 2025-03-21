@@ -1,0 +1,40 @@
+<div class="imagem__fundo imagem__fundo--esquerda"></div>
+<div class="imagem__fundo imagem__fundo--direita"></div>
+
+<div class="login">
+  <h2>Login de Usuário</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <div class="login__formulario">
+      <label>E-mail:</label>
+      <input type="email" formControlName="email" maxlength="100">
+      <div *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.invalid">
+        <small *ngIf="loginForm.get('email')?.hasError('required')">E-mail é obrigatório.</small>
+        <small *ngIf="loginForm.get('email')?.hasError('email')">E-mail inválido.</small>
+      </div>
+    </div>
+
+    <div class="login__formulario">
+      <label>Senha:</label>
+      <input type="password" formControlName="senha" maxlength="30">
+      <div *ngIf="loginForm.get('senha')?.dirty && loginForm.get('senha')?.invalid">
+        <small *ngIf="loginForm.get('senha')?.hasError('required')">Senha é obrigatória.</small>
+        <small *ngIf="loginForm.get('senha')?.hasError('minlength')">Senha deve ter pelo menos 8 caracteres.</small>
+      </div>
+    </div>
+
+    <button type="submit">Entrar</button>
+
+    <div class="login__formulario-botao">
+      <button type="button" (click)="navegarParaCadastro()">Cadastre-se</button>
+    </div>
+  </form>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopup">
+  <div class="popup__overlay--conteudo">
+    <p>{{ errorMessage }}</p>
+    <button (click)="fecharPopup()">Fechar</button>
+  </div>
+</div>

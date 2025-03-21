@@ -1,0 +1,201 @@
+@import '../../../app.component.scss';
+
+.empresas {
+  min-height: 37vh;
+
+  h1 {
+    color: $cor-primaria;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .empresas__barra-pesquisa {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: $sombra-caixa;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border-radius: 20px;
+      background-color: $cor-fundo;
+      color: $cor-texto-escuro;
+      margin-left: 10px;
+
+      &::placeholder {
+        color: gray;
+      }
+    }
+
+    .search-icon {
+      font-size: 1.5rem;
+      color: $cor-primaria;
+    }
+  }
+
+  .empresas__botao {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+
+    &--adicionar {
+      background-color: $cor-primaria;
+      color: white;
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0;
+      border: 2px solid $cor-primaria;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: $sombra-caixa;
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        background-color: white;
+        color: $cor-primaria;
+        border-color: $cor-primaria;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        background-color: darken($cor-primaria, 10%);
+        transform: translateY(2px);
+      }
+    }
+  }
+
+  .empresas__cartao {
+    display: block;
+    background-color: cor-transparente($cor-fundo-cartao, 0.2);
+    border-radius: $raio-borda;
+    box-shadow: $sombra-caixa;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    color: $cor-texto-escuro;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+
+    .empresas__cartao-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+
+      &--dados {
+        flex: 1;
+      }
+
+      &--endereco {
+        flex: 1;
+
+        h3 {
+          color: $cor-subtitulo;
+          margin-bottom: 1rem;
+        }
+
+        &--card {
+          background-color: $cor-fundo-cartao;
+          padding: 1rem;
+          border-radius: $raio-borda;
+          border: 1px solid white;
+        }
+      }
+
+      &--socios,
+      &--parcelamentos {
+        flex: 1;
+
+        h3 {
+          color: $cor-subtitulo;
+          margin-bottom: 1rem;
+        }
+
+        &--card {
+          background-color: $cor-fundo-cartao;
+          border: 1px solid white;
+          border-radius: $raio-borda;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          box-shadow: $sombra-caixa;
+          text-align: left;
+        }
+      }
+    }
+
+    &:hover {
+      background-color: cor-transparente($cor-primaria, 0.9);
+      color: white;
+
+      .empresas__cartao-info--endereco--subtitulo {
+        color: lighten($cor-subtitulo, 40%) !important;
+      }
+
+      .empresas__cartao-info--endereco--card,
+      .empresas__cartao-info--socios--card,
+      .empresas__cartao-info--parcelamentos--card {
+        background-color: lighten($cor-fundo-cartao-hover, 10%);
+      }
+
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .empresas {
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .empresas__barra-pesquisa {
+      padding: 0.5rem;
+
+      input {
+        padding: 0.6rem;
+        margin-left: 5px;
+      }
+
+      .search-icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    .empresas__botao--adicionar {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .empresas__cartao {
+      padding: 1.5rem;
+
+      .empresas__cartao-info {
+        gap: 0;
+        flex-direction: column;
+
+        &--endereco,
+        &--socios,
+        &--parcelamentos {
+          h3 {
+            font-size: 1.1rem;
+          }
+
+          &--card {
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

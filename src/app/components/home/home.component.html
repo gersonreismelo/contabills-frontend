@@ -1,0 +1,55 @@
+<div class="home">
+  <h1>Gestão de Empresas</h1>
+
+  <div class="home__graficos">
+    <div class="home__grafico" *ngIf="dadosDoGraficoDePizza.length >= 0; else noData">
+      <h2>Guias</h2>
+      <ngx-charts-pie-chart [view]="[200, 200]" [results]="dadosDoGraficoDePizza" [doughnut]="true" [arcWidth]="0.5"
+        [animations]="true" (select)="navegarParaParcelamentos()">
+      </ngx-charts-pie-chart>
+
+      <div class="home__grafico--legenda" *ngIf="totalParcelasCount >= 0">
+        <p>
+          <strong class="home__grafico--legenda--azul">{{ parcelasPagas }}</strong>/<strong
+            class="home__grafico--legenda--vinho">{{ totalParcelasCount }}</strong>
+        </p>
+        <p><strong class="home__grafico--legenda--azul">{{ parcelasPagas }}</strong> Guias Enviadas</p>
+        <p><strong class="home__grafico--legenda--vinho">{{ totalParcelasCount }}</strong> Total de Guias</p>
+      </div>
+    </div>
+
+    <div class="home__grafico" *ngIf="dadosGraficoCertificados.length >= 0">
+      <h2>Certificados</h2>
+      <ngx-charts-pie-chart [view]="[200, 200]" [results]="dadosGraficoCertificados" [doughnut]="true" [arcWidth]="0.5"
+        [animations]="true">
+      </ngx-charts-pie-chart>
+      <div class="home__grafico--legenda">
+        <p>
+          <strong class="home__grafico--legenda--azul">{{ comCertificadoCount }}</strong>/<strong
+            class="home__grafico--legenda--vinho">{{ totalEmpresas }}</strong>
+        </p>
+        <p><strong class="home__grafico--legenda--azul">{{ comCertificadoCount }}</strong> Empresas com Certificado</p>
+        <p><strong class="home__grafico--legenda--vinho">{{ totalEmpresas }}</strong> Total de Empresas</p>
+      </div>
+    </div>
+
+    <div class="home__grafico" *ngIf="dadosGraficoProcuracao.length >= 0">
+      <h2>Procurações</h2>
+      <ngx-charts-pie-chart [view]="[200, 200]" [results]="dadosGraficoProcuracao" [doughnut]="true" [arcWidth]="0.5"
+        [animations]="true">
+      </ngx-charts-pie-chart>
+      <div class="home__grafico--legenda">
+        <p>
+          <strong class="home__grafico--legenda--azul">{{ comProcuracaoCount }}</strong>/<strong
+            class="home__grafico--legenda--vinho">{{ totalEmpresas }}</strong>
+        </p>
+        <p><strong class="home__grafico--legenda--azul">{{ comProcuracaoCount }}</strong> Empresas com Procuração</p>
+        <p><strong class="home__grafico--legenda--vinho">{{ totalEmpresas }}</strong> Total de Empresas</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p> Nenhum dado disponível.</p>
+  </ng-template>
+</div>

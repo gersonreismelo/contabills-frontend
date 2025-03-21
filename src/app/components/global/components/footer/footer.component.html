@@ -1,0 +1,24 @@
+<footer class="footer">
+  <div class="footer__content">
+    <div class="footer__logo">
+      <button routerLink="/home">Contabills</button>
+    </div>
+    <div class="footer__links">
+      <ul class="footer__nav-list">
+        <li class="footer__nav-item">
+          <button [routerLink]="['/contato']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            Contato
+          </button>
+        </li>
+        <li class="footer__nav-item">
+          <button [routerLink]="['/sobre']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            Sobre
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; 2024 Contabills. Todos os direitos reservados.</p>
+  </div>
+</footer>

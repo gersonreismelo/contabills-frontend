@@ -1,0 +1,21 @@
+<div class="contato">
+  <h1>Contato</h1>
+  <p>Entre em contato ou envie-me um e-mail diretamente para <b>gersonreismelo&#64;gmail.com</b></p>
+  <form class="contato__formulario" (ngSubmit)="onSubmit()">
+    <div class="contato__campos">
+      <div class="contato__campo">
+        <input class="contato__input" type="text" name="name" id="name" placeholder="Nome" aria-required="true"
+          [(ngModel)]="contato.nome" required>
+      </div>
+      <div class="contato__campo">
+        <input class="contato__input" type="email" name="email" id="email" placeholder="E-mail" aria-required="true"
+          [(ngModel)]="contato.email" required>
+      </div>
+      <div class="contato__campo">
+        <textarea class="contato__textarea" name="message" id="message" rows="5" placeholder="Mensagem"
+          aria-required="true" [(ngModel)]="contato.mensagem" required></textarea>
+      </div>
+    </div>
+    <button class="contato__botao" type="submit" aria-label="Enviar mensagem">Enviar mensagem</button>
+  </form>
+</div>

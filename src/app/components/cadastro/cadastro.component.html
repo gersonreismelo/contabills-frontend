@@ -1,0 +1,87 @@
+<div class="imagem__fundo imagem__fundo--esquerda"></div>
+<div class="imagem__fundo imagem__fundo--direita"></div>
+
+<div class="cadastro">
+  <h2>Cadastro de Usuário</h2>
+
+  <form [formGroup]="formularioDeCadastro" (ngSubmit)="cadastrar()">
+
+    <div class="cadastro__grupo">
+      <label>Nome:</label>
+      <input type="text" formControlName="nome" maxlength="40">
+      <div *ngIf="formularioDeCadastro.get('nome')?.dirty && formularioDeCadastro.get('nome')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('nome')?.hasError('required')">Nome é obrigatório.</small>
+        <small *ngIf="formularioDeCadastro.get('nome')?.hasError('minlength')">Nome deve ter pelo menos 3
+          caracteres.</small>
+      </div>
+    </div>
+
+    <div class="cadastro__grupo">
+      <label>Email:</label>
+      <input type="email" formControlName="email" maxlength="100">
+      <div *ngIf="formularioDeCadastro.get('email')?.dirty && formularioDeCadastro.get('email')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('email')?.hasError('required')">Email é obrigatório.</small>
+        <small *ngIf="formularioDeCadastro.get('email')?.hasError('email')">Email inválido.</small>
+      </div>
+    </div>
+
+    <div class="cadastro__grupo">
+      <label>Senha:</label>
+      <input type="password" formControlName="senha" maxlength="30">
+      <div *ngIf="formularioDeCadastro.get('senha')?.dirty && formularioDeCadastro.get('senha')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('senha')?.hasError('required')">Senha é obrigatória.</small>
+        <small *ngIf="formularioDeCadastro.get('senha')?.hasError('minlength')">Senha deve ter pelo menos 8
+          caracteres.</small>
+      </div>
+    </div>
+
+    <div class="cadastro__grupo">
+      <label>Confirmar Senha:</label>
+      <input type="password" formControlName="confirmarSenha" maxlength="30">
+      <div
+        *ngIf="formularioDeCadastro.get('confirmarSenha')?.dirty && formularioDeCadastro.get('confirmarSenha')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('confirmarSenha')?.hasError('required')">Confirmar Senha é
+          obrigatória.</small>
+        <small *ngIf="formularioDeCadastro.get('confirmarSenha')?.hasError('minlength')">Confirmar Senha deve ter pelo
+          menos 8
+          caracteres.</small>
+      </div>
+      <div *ngIf="formularioDeCadastro.hasError('senhaDiferente')">
+        <small>As senhas não coincidem.</small>
+      </div>
+    </div>
+
+    <div class="cadastro__grupo">
+      <label>Data de Nascimento:</label>
+      <input type="date" formControlName="data">
+      <div *ngIf="formularioDeCadastro.get('data')?.dirty && formularioDeCadastro.get('data')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('data')?.hasError('required')">Data de nascimento é obrigatória.</small>
+        <small *ngIf="formularioDeCadastro.get('data')?.hasError('dataFutura')">Data de nascimento não pode ser no
+          futuro.</small>
+      </div>
+    </div>
+
+    <div class="cadastro__grupo">
+      <label>Telefone:</label>
+      <input type="text" formControlName="telefone" (input)="aoInserirTelefone($event)">
+      <div *ngIf="formularioDeCadastro.get('telefone')?.dirty && formularioDeCadastro.get('telefone')?.invalid">
+        <small *ngIf="formularioDeCadastro.get('telefone')?.hasError('required')">Telefone é obrigatório.</small>
+        <small *ngIf="formularioDeCadastro.get('telefone')?.hasError('pattern')">Formato de telefone inválido.</small>
+      </div>
+    </div>
+
+    <button type="submit">Cadastrar</button>
+
+    <div class="cadastro__grupo cadastro__acao-secundaria">
+      <button type="button" class="cadastro__botao" (click)="navegarParaLogin()">Ja possuo cadastro</button>
+    </div>
+
+  </form>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopup">
+  <div class="popup__overlay--conteudo">
+    <p>{{ mensagemDeErro }}</p>
+    <button (click)="fecharPopup()">Fechar</button>
+  </div>
+</div>

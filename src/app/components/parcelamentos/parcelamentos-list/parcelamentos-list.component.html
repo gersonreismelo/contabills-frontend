@@ -1,0 +1,80 @@
+<div class="parcelamento">
+  <h1>Parcelamentos</h1>
+
+  <div class="parcelamentos__botoes">
+    <button class="parcelamentos__botoes-novo" (click)="navegarParaAdicionarParcelamento()">Novo Parcelamento</button>
+  </div>
+
+  <button class="parcelamentos__filtro-botao" (click)="alternarModalFiltro()">
+    <span>+</span>
+  </button>
+
+  <div class="parcelamentos__filtro-modal" [ngClass]="{ 'show': showFiltroModal }">
+    <div class="parcelamentos__filtro-modal--conteudo">
+      <h3>Selecione o Filtro</h3>
+      <ul>
+        <li (click)="alterarFiltro('naoEnviados')">Não Enviados</li>
+        <li (click)="alterarFiltro('enviados')">Enviados</li>
+        <li (click)="alterarFiltro('todos')">Todos</li>
+      </ul>
+      <button (click)="alternarModalFiltro()">Fechar</button>
+    </div>
+  </div>
+
+  <div *ngIf="parcelamentosFiltrados.length === 0" class="parcelamentos__sem-resultados">
+    <p><strong>Não há parcelamentos para exibir.</strong></p>
+  </div>
+
+  <div *ngFor="let parcelamento of parcelamentosFiltrados" class="parcelamentos__cartao">
+    <h2>{{ parcelamento.tipoParcelamento }} (Número: {{ parcelamento.numeroParcelamento }})</h2>
+    <p><strong>Valor da Parcela:</strong> R$ {{ parcelamento.valorParcela | number: '1.2-2' }}</p>
+    <p><strong>Enviado no Mês Atual:</strong> {{ parcelamento.enviadoMesAtual ? 'Sim' : 'Não' }}</p>
+
+
+    <div class="parcelamentos__botoes">
+      <button (click)="abrirConfirmacaoEnvio(parcelamento)" [disabled]="parcelamento.enviadoMesAtual">
+        Enviado
+      </button>
+
+      <button class="parcelamentos__botoes--editar"
+        (click)="navegarParaEditarParcelamento(parcelamento.numeroParcelamento)">
+        Editar
+      </button>
+
+      <button class="parcelamentos__botoes--deletar" (click)="confirmarDelete(parcelamento)">
+        Excluir
+      </button>
+    </div>
+
+    <div class="parcelamentos__modal" [ngClass]="{'show': showDeleteModal}">
+      <div class="parcelamentos__filtro-modal--conteudo">
+        <h3>Confirmar Exclusão</h3>
+        <p>Tem certeza que deseja excluir este parcelamento?</p>
+        <button (click)="deletarParcelamento(parcelamento.numeroParcelamento)">Sim</button>
+        <button (click)="cancelarDelete()">Não</button>
+      </div>
+    </div>
+
+    <button class="parcelamentos__empresa-botao" (click)="navegarParaEmpresa(parcelamento.empresa)">
+      <div class="parcelamentos__empresa-botao--info">
+        <h3>Informações da Empresa</h3>
+        <p><strong>Númeração da Empresa:</strong> {{ parcelamento.empresa.apelidoId }}</p>
+        <p><strong>Razão Social:</strong> {{ parcelamento.empresa.razaoSocial }}</p>
+        <p><strong>CNPJ:</strong> {{ parcelamento.empresa.cnpj }}</p>
+        <p><strong>Tipo de Empresa:</strong> {{ parcelamento.empresa.tipoEmpresa }}</p>
+        <p><strong>Endereço:</strong> {{ parcelamento.empresa.enderecoEmpresa.logradouro }},
+          {{ parcelamento.empresa.enderecoEmpresa.numero }} - {{ parcelamento.empresa.enderecoEmpresa.bairro }} -
+          {{ parcelamento.empresa.enderecoEmpresa.cidade }} / {{ parcelamento.empresa.enderecoEmpresa.uf }}</p>
+      </div>
+    </button>
+  </div>
+
+  <div class="parcelamentos__modal" [ngClass]="{'show': showModal}">
+    <div class="parcelamentos__filtro-modal--conteudo">
+      <h3>Confirmar Envio</h3>
+      <p>Tem certeza que deseja marcar este parcelamento como enviado?</p>
+      <button (click)="marcarComoEnviado()">Sim</button>
+      <button (click)="cancelarEnvio()">Não</button>
+    </div>
+  </div>
+</div>

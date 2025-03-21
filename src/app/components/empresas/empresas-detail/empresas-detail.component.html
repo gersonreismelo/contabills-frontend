@@ -1,0 +1,74 @@
+<div class="empresa" *ngIf="empresa; else loading">
+  <h1>Detalhes da Empresa</h1>
+
+
+  <div class="empresa__info">
+    <h2>{{ empresa.apelidoId }} - {{ empresa.razaoSocial }}</h2>
+    <p><strong>Tipo de Empresa:</strong> {{ empresa.tipoEmpresa }}</p>
+    <p><strong>CNPJ:</strong> {{ empresa.cnpj }}</p>
+    <p><strong>IPTU:</strong> {{ empresa.iptu }}</p>
+    <p><strong>Email:</strong> {{ empresa.email }}</p>
+    <p><strong>Telefone:</strong> {{ empresa.telefone }}</p>
+    <p><strong>Capital Social:</strong> R$ {{ empresa.capitalSocialEmpresa | number:'1.2-2' }}</p>
+    <p><strong>Possui Procuração:</strong> {{ empresa.possuiProcuracao ? 'Sim' : 'Não' }}</p>
+    <p><strong>Possui Certificado:</strong> {{ empresa.possuiCertificado ? 'Sim' : 'Não' }}</p>
+  </div>
+
+  <div class="empresa__endereco">
+    <h3>Endereço</h3>
+    <p>{{ empresa.enderecoEmpresa.logradouro }}, {{ empresa.enderecoEmpresa.numero }}, {{
+      empresa.enderecoEmpresa.complemento }}</p>
+    <p>{{ empresa.enderecoEmpresa.bairro }} - {{ empresa.enderecoEmpresa.cidade }} / {{ empresa.enderecoEmpresa.uf }}
+    </p>
+    <p>CEP: {{ empresa.enderecoEmpresa.cep }}</p>
+  </div>
+
+  <div class="empresa__socios" *ngIf="empresa.socios.length > 0">
+    <h3>Sócios</h3>
+    <div *ngFor="let socio of empresa.socios" class="empresa__card">
+      <p><strong>Nome:</strong> {{ socio.nome }}</p>
+      <p><strong>CPF:</strong> {{ socio.cpf }}</p>
+      <p><strong>RG:</strong> {{ socio.rg }}</p>
+      <p><strong>Data de Emissão do RG:</strong> {{ socio.dataDeEmissaoRg | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>CNH:</strong> {{ socio.cnh }}</p>
+      <p><strong>Data de Emissão da CNH:</strong> {{ socio.dataDeEmissaoCnh | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Data de Validade da CNH:</strong> {{ socio.dataDeValidadeCnh | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Nome da Mãe:</strong> {{ socio.nomeDaMae }}</p>
+      <p><strong>Nome do Pai:</strong> {{ socio.nomeDoPai }}</p>
+      <p><strong>Nacionalidade:</strong> {{ socio.nacionalidade }}</p>
+      <p><strong>Estado Civil:</strong> {{ socio.estadoCivil }}</p>
+      <p><strong>Tipo de Comunhão:</strong> {{ socio.tipoDeComunhao }}</p>
+      <p><strong>Profissão:</strong> {{ socio.profissao }}</p>
+      <p><strong>Data de Nascimento:</strong> {{ socio.dataNascimento | date: 'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+
+  <div class="empresa__parcelamentos" *ngIf="empresa.parcelamentos.length > 0">
+    <h3>Parcelamentos</h3>
+    <div *ngFor="let parcelamento of empresa.parcelamentos" class="empresa__card">
+      <p><strong>Número do Parcelamento:</strong> {{ parcelamento.numeroParcelamento }}</p>
+      <p><strong>Tipo de Parcelamento:</strong> {{ parcelamento.tipoParcelamento }}</p>
+      <p><strong>Valor da Parcela:</strong> R$ {{ parcelamento.valorParcela | number:'1.2-2' }}</p>
+      <p><strong>Enviado no Mês Atual:</strong> {{ parcelamento.enviadoMesAtual ? 'Sim' : 'Não' }}</p>
+    </div>
+  </div>
+
+  <div class="empresa__botoes">
+    <button class="empresa__botao empresa__botao--voltar" (click)="voltarPagina()">Voltar</button>
+    <button class="empresa__botao empresa__botao--editar" (click)="editarEmpresa()">Editar Empresa</button>
+    <button class="empresa__botao empresa__botao--excluir" (click)="confirmarExclusao()">Excluir Empresa</button>
+  </div>
+
+  <div class="empresa__modal" [ngClass]="{'show': showModal}">
+    <div class="empresa__modal--conteudo">
+      <h3>Confirmar Exclusão</h3>
+      <p>Tem certeza que deseja excluir esta empresa?</p>
+      <button data-texto="Sim" (click)="deletarEmpresa()">Sim</button>
+      <button data-texto="Não" (click)="cancelarExclusao()">Não</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Carregando detalhes da empresa...</p>
+</ng-template>

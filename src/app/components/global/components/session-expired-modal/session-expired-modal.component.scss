@@ -1,0 +1,39 @@
+@import '../../../../app.component.scss';
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $cor-modal-fundo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  .modal__content {
+    background: white;
+    padding: 20px;
+    border-radius: $raio-borda;
+    text-align: center;
+    box-shadow: $sombra-caixa;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: $cor-botao-positivo;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: $raio-borda;
+      cursor: pointer;
+
+      &:hover {
+        background: darken($cor-botao-positivo, 10%);
+      }
+    }
+  }
+}

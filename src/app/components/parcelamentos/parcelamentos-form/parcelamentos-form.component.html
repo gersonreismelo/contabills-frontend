@@ -1,0 +1,114 @@
+<div class="parcelamento">
+    <h2>Cadastro de Parcelamento</h2>
+    <p>Preencha os dados abaixo</p>
+
+    <form [formGroup]="FormularioDeParcelamento" (ngSubmit)="saveParcelamento()">
+        <fieldset>
+            <legend>Dados do Parcelamento</legend>
+
+            <div formGroupName="empresa">
+                <fieldset>
+                    <legend>Empresa Relacionada</legend>
+                    <div class="parcelamento__formulario">
+                        <label for="apelidoId">Apelido da Empresa <span
+                                class="parcelamento__label--obrigatorio">*</span></label>
+                        <input type="number" id="apelidoId" [(ngModel)]="parcelamento.empresa.apelidoId"
+                            name="apelidoId" formControlName="apelidoId" maxlength="7" [required]="true"
+                            [placeholder]="isEditMode ? 'Digite o apelidoId da empresa' : ''" (change)="isEditMode "
+                            (input)="limitarEntrada($event, 99999999)" [readonly]="isEditMode">
+                        <div
+                            *ngIf="FormularioDeParcelamento.get('empresa.apelidoId')?.dirty && FormularioDeParcelamento.get('empresa.apelidoId')?.invalid">
+                            <small
+                                *ngIf="FormularioDeParcelamento.get('empresa.apelidoId')?.hasError('required')">Apelido
+                                da
+                                empresa é obrigatório.</small>
+                            <small *ngIf="FormularioDeParcelamento.get('empresa.apelidoId')?.hasError('min')">Apelido da
+                                empresa
+                                deve ser maior que 0.</small>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="parcelamento__formulario">
+                <label for="numeroParcelamento">Número da Parcela <span
+                        class="parcelamento__label--obrigatorio">*</span></label>
+                <input type="number" id="numeroParcelamento" [(ngModel)]="parcelamento.numeroParcelamento"
+                    name="numeroParcelamento" formControlName="numeroParcelamento" required
+                    (input)="limitarEntrada($event, 9999999999999)" [readonly]="isEditMode">
+                <div
+                    *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.dirty && FormularioDeParcelamento.get('numeroParcelamento')?.invalid">
+                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('required')">Número da
+                        parcela é
+                        obrigatório.</small>
+                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('min')">Número da parcela
+                        deve
+                        ser maior que 0.</small>
+                </div>
+            </div>
+
+            <div class="parcelamento__formulario-inline">
+                <div class="parcelamento__formulario">
+                    <label for="tipoParcelamento">Tipo de Parcelamento <span
+                            class="parcelamento__label--obrigatorio">*</span></label>
+                    <select id="tipoParcelamento" [(ngModel)]="parcelamento.tipoParcelamento" name="tipoParcelamento"
+                        formControlName="tipoParcelamento" required>
+                        <option value="Divida Ativa">Divida Ativa</option>
+                        <option value="Simples Nascional">Simples Nascional</option>
+                        <option value="Divida Simplificada">Divida Simplificada</option>
+                        <option value="MEI">MEI</option>
+                        <option value="IPTU">IPTU</option>
+                        <option value="INSS">INSS</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <div
+                        *ngIf="FormularioDeParcelamento.get('tipoParcelamento')?.dirty && FormularioDeParcelamento.get('tipoParcelamento')?.invalid">
+                        <small *ngIf="FormularioDeParcelamento.get('tipoParcelamento')?.hasError('required')">Tipo de
+                            parcelamento é obrigatório.</small>
+                    </div>
+                </div>
+
+                <div class="parcelamento__formulario">
+                    <label for="valorParcela">Valor da Parcela <span
+                            class="parcelamento__label--obrigatorio">*</span></label>
+                    <input type="number" id="valorParcela" [(ngModel)]="parcelamento.valorParcela" name="valorParcela"
+                        formControlName="valorParcela" maxlength="9999999999999" required
+                        (input)="limitarEntrada($event, 9999999999999)">
+                    <div
+                        *ngIf="FormularioDeParcelamento.get('valorParcela')?.dirty && FormularioDeParcelamento.get('valorParcela')?.invalid">
+                        <small *ngIf="FormularioDeParcelamento.get('valorParcela')?.hasError('required')">Valor da
+                            parcela é
+                            obrigatório.</small>
+                        <small *ngIf="FormularioDeParcelamento.get('valorParcela')?.hasError('min')">Valor da parcela
+                            deve ser
+                            maior que 0.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="parcelamento__formulario">
+                <label for="enviadoMesAtual">Enviado no Mês Atual <span
+                        class="parcelamento__label--obrigatorio">*</span></label>
+                <div class="parcelamento__formulario--radio">
+                    <label class="parcelamento__formulario--radio--label">
+                        <input type="radio" [(ngModel)]="parcelamento.enviadoMesAtual" name="enviadoMesAtual"
+                            formControlName="enviadoMesAtual" [value]="true">Sim
+                    </label>
+                    <label class="parcelamento__formulario--radio--label">
+                        <input type="radio" [(ngModel)]="parcelamento.enviadoMesAtual" name="enviadoMesAtual"
+                            formControlName="enviadoMesAtual" [value]="false" checked>Não
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+
+        <button type="submit">Salvar</button>
+    </form>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopup">
+    <div class="popup__overlay--content">
+        <p>{{ mensagemDeErro }}</p>
+        <button (click)="fecharPopup()">Fechar</button>
+    </div>
+</div>

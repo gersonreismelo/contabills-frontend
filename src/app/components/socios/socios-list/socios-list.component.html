@@ -1,0 +1,66 @@
+<div class="socios">
+  <h1>Lista de Sócios</h1>
+
+  <div class="socios__busca">
+    <input type="text" [(ngModel)]="termoBuscaSocio" placeholder="Buscar sócio..." />
+  </div>
+
+  <div class="socios__adicionar">
+    <button (click)="navegarParaAdicionarSocio()">Adicionar Sócio</button>
+  </div>
+
+  <div *ngFor="let socio of sociosFiltrados" class="socios__cartao">
+    <div class="socios__cartao-socio">
+      <div class="socios__cartao-socio--info">
+        <h2>{{ socio.nome }}</h2>
+        <p><strong>Data de Nascimento:</strong> {{ socio.dataNascimento | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>CPF:</strong> {{ socio.cpf }}</p>
+        <p><strong>RG:</strong> {{ socio.rg }}</p>
+        <p><strong>Data de Emissão do RG:</strong> {{ socio.dataDeEmissaoRg | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>CNH:</strong> {{ socio.cnh }}</p>
+        <p><strong>Data de Emissão da CNH:</strong> {{ socio.dataDeEmissaoCnh | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>Data de Validade da CNH:</strong> {{ socio.dataDeValidadeCnh | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>Nome da Mãe:</strong> {{ socio.nomeDaMae }}</p>
+        <p><strong>Nome do Pai:</strong> {{ socio.nomeDoPai }}</p>
+        <p><strong>Nacionalidade:</strong> {{ socio.nacionalidade }}</p>
+        <p><strong>Estado Civil:</strong> {{ socio.estadoCivil }}</p>
+        <p><strong>Tipo de Comunhão:</strong> {{ socio.tipoDeComunhao }}</p>
+        <p><strong>Profissão:</strong> {{ socio.profissao }}</p>
+      </div>
+
+      <div class="socios__cartao-socio--endereco">
+        <h3>Endereço do Sócio</h3>
+        <p>{{ socio.enderecoSocio.logradouro }}, {{ socio.enderecoSocio.numero }}, {{ socio.enderecoSocio.complemento }}
+        </p>
+        <p>{{ socio.enderecoSocio.bairro }} - {{ socio.enderecoSocio.cidade }} / {{ socio.enderecoSocio.uf }} - CEP: {{
+          socio.enderecoSocio.cep }}</p>
+      </div>
+    </div>
+
+    <div class="socios__cartao-empresa" *ngIf="socio.empresas && socio.empresas.length > 0">
+      <h3>Empresas</h3>
+      <button *ngFor="let empresa of socio.empresas" class="socios__cartao-empresa--navegar"
+        (click)="navegarParaEmpresa(empresa)">
+        <p><strong>Razão Social:</strong> {{ empresa.razaoSocial }}</p>
+        <p><strong>CNPJ:</strong> {{ empresa.cnpj }}</p>
+        <p><strong>Tipo de Empresa:</strong> {{ empresa.tipoEmpresa }}</p>
+        <p><strong>Email:</strong> {{ empresa.email }}</p>
+        <p><strong>Telefone:</strong> {{ empresa.telefone }}</p>
+      </button>
+    </div>
+
+    <div class="socios__cartao-botoes">
+      <button class="socios__cartao-botoes--editar" (click)="navegarParaEditarSocio(socio.id)">Editar</button>
+      <button class="socios__cartao-botoes--deletar" (click)="confirmarExclusao(socio)">Excluir</button>
+    </div>
+  </div>
+
+  <div class="socios__modal" [ngClass]="{'show': exibirModalExclusao}">
+    <div class="socios__modal--conteudo">
+      <h3>Confirmar Exclusão</h3>
+      <p>Tem certeza que deseja excluir este sócio?</p>
+      <button (click)="deletarSocio()">Sim</button>
+      <button (click)="cancelarExclusao()">Não</button>
+    </div>
+  </div>
+</div>

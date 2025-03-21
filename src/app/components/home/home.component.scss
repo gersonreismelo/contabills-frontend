@@ -1,0 +1,85 @@
+@import '../../app.component.scss';
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  color: black;
+
+  .home__graficos {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+
+    .home__grafico {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px 40px 0;
+
+      h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: $cor-total;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      &--legenda {
+        text-align: center;
+        font-weight: 600;
+
+        &--vinho {
+          color: $cor-faltante;
+          font-weight: bold;
+        }
+
+        &--azul {
+          color: $cor-total;
+          font-weight: bold;
+        }
+      }
+
+      &--legenda p:first-child {
+        font-size: 28px;
+        margin: -10px 0 0 0;
+
+        p {
+          font-size: 16px;
+          font-weight: 600;
+          color: $cor-texto-escuro;
+          margin: 5px 0;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .home__graficos {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .home__grafico {
+    padding: 0 10px 30px 10px;
+
+    h2 {
+      font-size: 20px;
+    }
+
+    &--legenda {
+      font-size: 14px;
+    }
+
+    &--legenda p:first-child {
+      font-size: 24px;
+    }
+  }
+}

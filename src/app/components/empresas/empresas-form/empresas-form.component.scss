@@ -1,0 +1,401 @@
+@import '../../../app.component.scss';
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.cadastro {
+    transform: scale(0.9);
+    position: relative;
+    max-width: 2000px;
+    margin: auto;
+    padding: 30px;
+    border-radius: $raio-borda;
+    background-color: $cor-primaria;
+    color: $cor-texto-principal;
+    box-shadow: $sombra-caixa;
+    text-align: left;
+
+    h2 {
+        color: $cor-destaque;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    p {
+        margin: 5px;
+    }
+
+    .cadastro__subtitulo {
+        text-align: center;
+    }
+
+    .cadastro__alerta {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: $raio-borda;
+
+        &--aviso {
+            background-color: lighten($cor-secundaria, 10%);
+            color: darken($cor-secundaria, 50%);
+        }
+
+        &--erro {
+            background-color: lighten($cor-erro, 10%);
+            color: darken($cor-erro, 50%);
+        }
+    }
+
+    .cadastro__socio {
+        border: 1px solid $cor-secundaria;
+        border-radius: $raio-borda;
+        padding: 10px;
+        margin-bottom: 10px;
+
+        h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        &--remover {
+            background-color: transparent;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken(red, 10%);
+            }
+
+            &::before {
+                content: "🗑️";
+            }
+        }
+    }
+
+    form {
+        margin-top: 30px;
+
+        fieldset {
+            border: 1px solid $cor-secundaria;
+            border-radius: $raio-borda;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cadastro__grupo {
+            margin-bottom: 20px;
+
+            @each $selectors, $width in $input-widths {
+                #{$selectors} {
+                    width: $width;
+                }
+            }
+
+            #tipoEmpresa {
+                width: 17.5em;
+            }
+
+            #email {
+                width: 30em;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .cadastro__label--obrigatorio {
+                color: $cor-erro;
+            }
+
+            &--radio {
+                display: flex;
+                align-items: center;
+
+                label {
+                    display: inline-flex;
+                    align-items: center;
+                    margin-right: 15px;
+                    cursor: pointer;
+
+                    input[type="radio"] {
+                        appearance: none;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        width: 16px;
+                        height: 16px;
+                        border: 2px solid $cor-secundaria;
+                        border-radius: 50%;
+                        margin-right: 8px;
+                        position: relative;
+                        cursor: pointer;
+
+                        &:checked {
+                            border-color: $cor-texto-principal;
+
+                            &::before {
+                                content: '';
+                                width: 8px;
+                                height: 8px;
+                                background-color: $cor-primaria;
+                                border-radius: 50%;
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                            }
+                        }
+                    }
+                }
+            }
+
+            input,
+            select {
+                width: calc(100% - 22px);
+                padding: 10px;
+                border-radius: $raio-borda;
+                border: 1px solid $cor-secundaria;
+                background-color: $cor-secundaria;
+                color: $cor-texto-input;
+                font-size: 1rem;
+                font-weight: 700;
+                transition: border 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $cor-destaque;
+                }
+            }
+
+            small {
+                display: flex;
+                align-items: center;
+                background: lighten($cor-erro, 10%);
+                color: white;
+                font-size: 0.85rem;
+                font-weight: bold;
+                padding: 8px 12px;
+                margin-top: 5px;
+                border-radius: $raio-borda;
+                box-shadow: inset $sombra-caixa;
+                animation: fadeIn 0.3s ease-in-out;
+
+                &::before {
+                    content: "⚠️";
+                    margin-right: 8px;
+                }
+            }
+        }
+
+        .cadastro__botoes--grupo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+
+            button {
+                padding: 10px 15px;
+                border: none;
+                border-radius: $raio-borda;
+                cursor: pointer;
+                font-weight: bold;
+
+                &.cadastro__botao--adicionar {
+                    background-color: $cor-secundaria;
+                    color: $cor-primaria;
+
+                    &:hover {
+                        background-color: darken($cor-secundaria, 10%);
+                    }
+                }
+
+                &.cadastro__botao--cadastrar-socio {
+                    background-color: $cor-destaque;
+                    color: $cor-primaria;
+
+                    &:hover {
+                        background-color: darken($cor-destaque, 30%);
+                    }
+                }
+            }
+        }
+
+        .cadastro__grupo-formulario--inline {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: $raio-borda;
+            border: none;
+            background-color: $cor-destaque;
+            color: $cor-primaria;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken($cor-destaque, 30%);
+            }
+        }
+
+
+        .error-message {
+            color: $cor-erro;
+            margin-top: 10px;
+        }
+    }
+}
+
+.popup__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    &--content {
+        background: $cor-primaria;
+        padding: 20px;
+        border-radius: $raio-borda;
+        box-shadow: $sombra-caixa;
+        text-align: center;
+        width: 300px;
+
+        p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: $cor-texto-principal;
+        }
+
+        button {
+            background: $cor-destaque;
+            color: $cor-primaria;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: $raio-borda;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+
+            &:hover {
+                background-color: darken($cor-destaque, 30%);
+            }
+        }
+    }
+}
+
+input[readonly],
+select[readonly] {
+    background-color: lighten(grey, 50%);
+    color: grey !important;
+    border: 1px solid white;
+    cursor: not-allowed;
+}
+
+@media only screen and (max-width: 1350px) {
+    .cadastro__grupo-formulario--inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .cadastro__grupo-formulario--inline>.cadastro__grupo {
+        flex: 0 0 calc(50% - 20px);
+        box-sizing: border-box;
+    }
+
+    .cadastro form input,
+    .cadastro form select {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+
+    .cadastro form input,
+    .cadastro form select {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .cadastro {
+        max-width: 100%;
+        padding: 20px;
+        transform: scale(1);
+    }
+
+    .cadastro form {
+        fieldset {
+            padding: 15px;
+        }
+
+        .cadastro__grupo {
+            margin-bottom: 15px;
+
+            label {
+                font-size: 0.9rem;
+            }
+        }
+
+        .cadastro__grupo-formulario--inline {
+            display: block;
+
+            >.cadastro__grupo {
+                margin-bottom: 15px;
+            }
+        }
+
+        .cadastro__botoes--grupo {
+            flex-direction: column;
+            align-items: stretch;
+
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        button[type="submit"] {
+            padding: 12px;
+        }
+    }
+}

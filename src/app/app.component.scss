@@ -1,0 +1,51 @@
+/**Espaçamento dos inputs dos formulários**/
+$input-widths: (
+    "#numeroEmpresa, #cepEmpresa, #dataEmissaoCnhSocio, #dataValidadeCnhSocio, #cepSocio, #numeroSocio": 10em,
+    "#dataEmissaoRgSocio": 13em,
+    "#dataNascimentoSocio, #complementoEmpresa, #cnpj, #iptu, #telefone, #capitalSocialEmpresa, #bairroEmpresa, #cidadeEmpresa, #ufEmpresa, #cpfSocio, #rgSocio, #cnhSocio, #nacionalidadeSocio, #profissaoSocio, #bairroSocio, #ufSocio, #cidadeSocio, #complementoSocio": 16em,
+    "#estadoCivilSocio, #tipoDeComunhaoSocio": 17.4em,
+    "#tipoParcelamento, #valorParcela, #nomeSocio, #nomeMaeSocio, #nomePaiSocio, #logradouroSocio": 25em,
+    "#razaoSocial, #logradouroEmpresa": 39em
+);
+
+/**Global SCSS**/
+$cor-primaria: #2c3e50;
+$cor-botao-editar: #ffa500;
+$cor-botao-deletar: #ff4d4d;
+$cor-fundo-cartao: #ffffff6e;
+$cor-fundo-cartao-hover: #2c3e50;
+$cor-texto-principal: #f5f5f5;
+$cor-texto-escuro: #333;
+$cor-subtitulo: #007a62;
+$cor-botao-positivo: #3498db;
+$cor-botao-negativo: #27ae60;
+$cor-modal-filtro: #3d3977;
+$cor-modal-fundo: rgba(0, 0, 0, 0.7);
+$cor-modal-certeza: linear-gradient(to right, darken($cor-modal-filtro, 30%), $cor-modal-filtro);
+$raio-borda: 8px;
+$sombra-caixa: 0 4px 8px rgba(0, 0, 0, 0.1);
+$cor-borda: lighten($cor-primaria, 20%);
+
+/**Cores para formulário**/
+$cor-secundaria: #DCEDC1;
+$cor-destaque: #A8E6CF;
+$cor-texto-input: #077739;
+$cor-erro: #ff6b6b;
+
+/**Cores para lista**/
+$cor-fundo: #f4f4f9;
+$cor-hover-botao-filtro: #1abc9c;
+
+/**Cores para lista de Parcelamento**/
+$cor-sem-dados: #f8d7da;
+
+/**Cores para detalhes**/
+$cor-botao-voltar: #1abc9c;
+
+/**Cores da Home**/
+$cor-total: #25609b;
+$cor-faltante: #8B0000;
+
+@function cor-transparente($cor, $porcentagem) {
+    @return rgba(red($cor), green($cor), blue($cor), $porcentagem);
+}

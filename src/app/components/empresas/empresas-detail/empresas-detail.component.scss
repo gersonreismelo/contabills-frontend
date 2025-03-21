@@ -1,0 +1,216 @@
+@import '../../../app.component.scss';
+
+.empresa {
+  padding: 2rem;
+  color: $cor-texto-escuro;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  h1 {
+    color: $cor-primaria;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    color: $cor-subtitulo;
+    margin-bottom: 1rem;
+  }
+
+  .empresa__info,
+  .empresa__endereco,
+  .empresa__socios,
+  .empresa__parcelamentos {
+    margin-bottom: 1.5rem;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+
+  .empresa__card {
+    background-color: $cor-fundo-cartao;
+    border: 1px solid #ccc;
+    border-radius: $raio-borda;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: $sombra-caixa;
+  }
+
+  .empresa__botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    .empresa__botao {
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: $raio-borda;
+      cursor: pointer;
+      font-size: 1rem;
+
+      &--voltar {
+        background-color: $cor-botao-voltar;
+
+        &:hover {
+          background-color: darken($cor-botao-voltar, 10%);
+        }
+      }
+
+      &--editar {
+        background-color: $cor-botao-editar;
+
+        &:hover {
+          background-color: darken($cor-botao-editar, 10%);
+        }
+      }
+
+      &--excluir {
+        background-color: $cor-botao-deletar;
+
+        &:hover {
+          background-color: darken($cor-botao-deletar, 10%);
+        }
+      }
+    }
+  }
+
+  .empresa__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $cor-modal-fundo;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    &--conteudo {
+      background: $cor-modal-certeza;
+      color: white;
+      padding: 30px 40px;
+      border-radius: $raio-borda;
+      text-align: center;
+      box-shadow: $sombra-caixa;
+      width: 400px;
+      max-width: 90%;
+      animation: fadeIn 0.4s ease-out;
+
+      h3 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      button {
+        color: white;
+        padding: 12px 25px;
+        border-radius: $raio-borda;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      button[data-texto="Sim"] {
+        background-color: $cor-botao-positivo;
+
+        &:hover {
+          background-color: darken($cor-botao-positivo, 10%);
+        }
+      }
+
+      button[data-texto="Não"] {
+        background-color: $cor-botao-negativo;
+
+        &:hover {
+          background-color: darken($cor-botao-negativo, 10%);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .empresa {
+    padding: 1.5rem;
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .empresa__info,
+    .empresa__endereco,
+    .empresa__socios,
+    .empresa__parcelamentos {
+      margin-bottom: 1rem;
+
+      p {
+        margin: 0.4rem 0;
+      }
+    }
+
+    .empresa__card {
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .empresa__botoes {
+      flex-direction: column;
+      gap: 1rem;
+
+      .empresa__botao {
+        width: 100%;
+        text-align: center;
+        padding: 0.8rem;
+      }
+    }
+
+    .empresa__modal {
+      &--conteudo {
+        width: 90%;
+        padding: 20px;
+
+        h3 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

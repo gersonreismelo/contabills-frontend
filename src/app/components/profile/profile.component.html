@@ -1,0 +1,75 @@
+<div class="profile">
+  <div class="perfil__cabecalho">
+    <h1>Olá, {{ usuario?.nome }}!</h1>
+    <button (click)="logout()">Sair</button>
+  </div>
+
+  <div class="perfil__informacoes">
+    <div class="perfil__imagem">
+      <img *ngIf="enderecoFotoPerfil" [src]="enderecoFotoPerfil" alt="Foto de Perfil" class="perfil__imagem--usuario"
+        (click)="acionarEntradaArquivo()" />
+      <div *ngIf="!enderecoFotoPerfil" class="perfil__imagem--padrao" (click)="acionarEntradaArquivo()">Sem Foto</div>
+      <input type="file" #fileInput (change)="mudancaArquivo($event)" style="display: none;" accept="image/*" />
+    </div>
+
+    <div *ngIf="isEditing">
+      <div class="perfil__grupo-formulario">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" [(ngModel)]="usuario.nome" />
+      </div>
+
+      <div class="perfil__grupo-formulario">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" [(ngModel)]="usuario.telefone" />
+      </div>
+
+      <div class="perfil__grupo-formulario">
+        <label for="data">Data de Nascimento:</label>
+        <input type="date" id="data" [(ngModel)]="usuario.data" />
+      </div>
+
+      <div class="perfil__grupo-formulario">
+        <label for="senha">Nova Senha:</label>
+        <input type="password" id="senha" [(ngModel)]="novaSenha" />
+      </div>
+
+      <div class="perfil__grupo-formulario">
+        <label for="confirmarSenha">Confirmar Nova Senha:</label>
+        <input type="password" id="confirmarSenha" [(ngModel)]="confirmarNovaSenha" />
+      </div>
+
+      <button class="perfil__botao-salvar" (click)="abrirModalConfirmacaoAtualizacao()">Salvar</button>
+      <button class="perfil__botao-cancelar" (click)="cancelarEdicao()">Cancelar</button>
+    </div>
+
+    <div *ngIf="!isEditing">
+      <p><strong>Meu Email:</strong> {{ usuario?.email }}</p>
+      <p><strong>Nome:</strong> {{ usuario?.nome }}</p>
+      <p><strong>Data de Nascimento:</strong> {{ usuario?.data | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Telefone:</strong> {{ usuario?.telefone }}</p>
+      <p><strong>Senha:</strong> ******** </p>
+      <button class="perfil__botao-editar" (click)="eitarPerfil()">Editar Informações</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="exibirModalConfirmacaoFoto" class="modal">
+  <div class="modal__conteudo">
+    <p>Tem certeza que deseja usar esta foto?</p>
+    <img *ngIf="novaFotoUrl" [src]="novaFotoUrl" alt="Nova foto de perfil" style="max-width: 200px;">
+    <div class="modal__conteudo--botoes">
+      <button (click)="confirmarMudancaFoto()">Sim</button>
+      <button (click)="cancelarMudancaFoto()">Não</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="exibirModalConfirmacaoDados" class="modal">
+  <div class="modal__conteudo">
+    <p>Tem certeza que deseja atualizar os dados do perfil?</p>
+    <div class="modal__conteudo--botoes">
+      <button (click)="confirmarSalvarAlteracoes()">Sim</button>
+      <button (click)="fecharModalConfirmacaoAtualizacao()">Não</button>
+    </div>
+  </div>
+</div>

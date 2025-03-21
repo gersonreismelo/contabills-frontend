@@ -1,0 +1,330 @@
+@import '../../../app.component.scss';
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.socios {
+  h1 {
+    text-align: center;
+    color: $cor-primaria;
+    margin-bottom: 2rem;
+  }
+
+  .socios__busca {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: $sombra-caixa;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border-radius: 20px;
+      background-color: $cor-fundo;
+      color: $cor-texto-escuro;
+      margin-left: 10px;
+    }
+  }
+
+  h3 {
+    color: $cor-subtitulo;
+    margin-bottom: 1rem;
+  }
+
+  .socios__adicionar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+
+    button {
+      background-color: $cor-primaria;
+      color: white;
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0;
+      border: 2px solid $cor-primaria;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: $sombra-caixa;
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        background-color: white;
+        color: $cor-primaria;
+        border-color: $cor-primaria;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        background-color: darken($cor-primaria, 10%);
+        transform: translateY(2px);
+      }
+    }
+  }
+
+  .socios__cartao {
+    display: block;
+    background-color: $cor-fundo-cartao;
+    border-radius: $raio-borda;
+    box-shadow: $sombra-caixa;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    color: $cor-texto-escuro;
+    border: none;
+    text-align: left;
+
+    .socios__cartao-socio {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      &--info {
+        flex: 1;
+        margin-right: 20px;
+      }
+
+      &--endereco {
+        flex: 1;
+        background-color: $cor-fundo-cartao;
+        padding: 1rem;
+        border-radius: $raio-borda;
+      }
+    }
+
+    .socios__cartao-empresa {
+      margin-top: 20px;
+
+      &--navegar {
+        background-color: $cor-fundo-cartao;
+        border: 1px solid #ccc;
+        border-radius: $raio-borda;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: $sombra-caixa;
+        width: 100%;
+        text-align: left;
+
+        &:hover {
+          background-color: $cor-fundo-cartao-hover;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .socios__cartao-botoes {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: $raio-borda;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+
+      &--editar,
+      &--deletar {
+        padding: 0.5rem 1rem;
+        border-radius: $raio-borda;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      &--editar {
+        background-color: $cor-botao-editar;
+        color: white;
+        font-weight: bold;
+
+        &:hover {
+          background-color: darken($cor-botao-editar, 10%);
+        }
+      }
+
+      &--deletar {
+        background-color: $cor-botao-deletar;
+        color: white;
+
+        &:hover {
+          background-color: darken($cor-botao-deletar, 10%);
+        }
+      }
+    }
+  }
+
+  .socios__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    &--conteudo {
+      background: $cor-modal-certeza;
+      color: white;
+      padding: 30px 40px;
+      border-radius: $raio-borda;
+      text-align: center;
+      box-shadow: $sombra-caixa;
+      width: 400px;
+      max-width: 90%;
+      animation: fadeIn 0.4s ease-out;
+
+      h3 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      button {
+        padding: 12px 25px;
+        border-radius: $raio-borda;
+        font-size: 1rem;
+        background-color: $cor-botao-positivo;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken($cor-botao-positivo, 10%);
+        }
+      }
+
+      button:last-child {
+        background-color: $cor-botao-negativo;
+        color: white;
+
+        &:hover {
+          background-color: darken($cor-botao-negativo, 10%);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .socios {
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .socios__busca {
+      padding: 0.5rem;
+
+      input {
+        padding: 0.6rem;
+        margin-left: 5px;
+      }
+    }
+
+    .socios__adicionar {
+      justify-content: center;
+      margin-bottom: 1.5rem;
+
+      button {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+      }
+    }
+
+    .socios__cartao {
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+
+      .socios__cartao-socio {
+        flex-direction: column;
+
+        &--info,
+        &--endereco {
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .socios__cartao-empresa {
+        margin-top: 1rem;
+
+        &--navegar {
+          padding: 0.8rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      .socios__cartao-botoes {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+
+        &--editar,
+        &--deletar {
+          width: 100%;
+          font-size: 0.9rem;
+          padding: 0.5rem;
+        }
+      }
+    }
+
+    .socios__modal {
+      &--conteudo {
+        width: 90%;
+        padding: 20px 30px;
+
+        h3 {
+          font-size: 1.6rem;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          font-size: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
+}
