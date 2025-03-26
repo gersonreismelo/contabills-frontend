@@ -24,11 +24,16 @@ export class EmpresasFormComponent implements OnInit {
   empresa!: Empresa;
   FormularioDeEmpresa: FormGroup;
   mensagemDeErro: string | null = null;
+  mensagemDeErroCep: string | null = null;
   exibirPopup: boolean = false;
   estados: any[] = [];
   municipios: any[] = [];
   loading: boolean = false;
   isEditing: boolean = false;
+  mensagemSucesso: string = '';
+  exibirModalSucesso: boolean = false;
+  exibirPopupConfirmacao: boolean = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +72,7 @@ export class EmpresasFormComponent implements OnInit {
     }
   }
 
+
   carregarEmpresaPorId(empresaId: string): void {
     this.loading = true;
     this.mensagemDeErro = '';
@@ -84,6 +90,39 @@ export class EmpresasFormComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => this.lidarComErro(error, 'carregar empresa')
+    });
+  }
+
+  onCpfBlur(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    const cpf = input.value;
+
+    if (cpf && cpf.length >= 11) {
+      this.buscarSocioPorCpf(cpf, index);
+    }
+  }
+
+  buscarSocioPorCpf(cpf: string, index: number): void {
+    this.sociosService.buscarSocioPorCpf(cpf).subscribe({
+      next: (socio) => {
+        if (this.empresa.socios && this.empresa.socios[index]) {
+          this.empresa.socios[index].nome = socio.nome;
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Erro ao buscar dados do sócio pelo CPF:', error);
+        if (error.status === 404) {
+          this.mostrarPopup('CPF não vinculado a nenhum sócio.');
+          if (this.empresa.socios && this.empresa.socios[index]) {
+            this.empresa.socios[index].nome = '';
+          }
+        } else {
+          this.mostrarPopup('Erro ao buscar sócio.');
+          if (this.empresa.socios && this.empresa.socios[index]) {
+            this.empresa.socios[index].nome = '';
+          }
+        }
+      }
     });
   }
 
@@ -183,21 +222,36 @@ export class EmpresasFormComponent implements OnInit {
     if (cep && cep.length === 9) {
       this.localizacaoService.consultaCep(cep.replace('-', '')).subscribe({
         next: (res) => {
-          this.FormularioDeEmpresa.patchValue({
-            enderecoEmpresa: {
-              logradouro: res.logradouro,
-              bairro: res.bairro,
-              cidade: res.localidade,
-              uf: res.uf
-            }
-          });
+          if (res.erro === 'true' || res.erro === true) {
+            this.mensagemDeErroCep = 'CEP inválido';
+            this.FormularioDeEmpresa.patchValue({
+              enderecoEmpresa: {
+                logradouro: '',
+                bairro: '',
+                cidade: '',
+                uf: ''
+              }
+            });
+          } else {
+            this.FormularioDeEmpresa.patchValue({
+              enderecoEmpresa: {
+                logradouro: res.logradouro,
+                bairro: res.bairro,
+                cidade: res.localidade,
+                uf: res.uf
+              }
+            });
+            this.mensagemDeErroCep = '';
+          }
         },
         error: (err) => {
           console.error('Erro ao consultar CEP:', err);
+          this.mensagemDeErroCep = 'CEP inválido';
         }
       });
     }
   }
+
 
   formatarCNPJ(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -228,6 +282,19 @@ export class EmpresasFormComponent implements OnInit {
     this.mensagemDeErro = null;
   }
 
+  fecharModalSucesso(): void {
+    this.exibirModalSucesso = false;
+    this.router.navigate(['/empresas']);
+  }
+
+  confirmarNavegacaoCadastroSocio() {
+    this.exibirPopupConfirmacao = true;
+  }
+
+  fecharPopupConfirmacao() {
+    this.exibirPopupConfirmacao = false;
+  }
+
   validarFormulario(): boolean {
     if (this.FormularioDeEmpresa.invalid) {
       this.formUtils.marcarCamposComoDirty(this.FormularioDeEmpresa);
@@ -243,6 +310,7 @@ export class EmpresasFormComponent implements OnInit {
     }
     this.loading = true;
     this.mensagemDeErro = '';
+    let isNovaEmpresa: boolean;
 
     const sociosArray = this.FormularioDeEmpresa.get('socios') as FormArray;
     const socios = sociosArray.controls.map((control) => control.value);
@@ -256,7 +324,7 @@ export class EmpresasFormComponent implements OnInit {
       .then(() => {
         const empresaData = this.FormularioDeEmpresa.value;
         this.empresa = { ...this.empresa, ...empresaData };
-        const isNovaEmpresa = this.router.url.includes('/nova-empresa');
+        isNovaEmpresa = this.router.url.includes('/nova-empresa');
 
         if (isNovaEmpresa) {
           return this.empresasService.cadastrarEmpresa(this.empresa).toPromise();
@@ -264,7 +332,10 @@ export class EmpresasFormComponent implements OnInit {
           return this.empresasService.atualizarEmpresa(this.empresa).toPromise();
         }
       })
-      .then(() => this.router.navigate(['/empresas']))
+      .then(() => {
+        this.mensagemSucesso = isNovaEmpresa ? 'Empresa cadastrada com sucesso!' : 'Empresa atualizada com sucesso!';
+        this.exibirModalSucesso = true;
+      })
       .catch((error) => this.lidarComErro(error, 'salvar empresa'))
       .finally(() => (this.loading = false));
   }

@@ -1,5 +1,6 @@
 @import '../../../../app.component.scss';
 
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -14,7 +15,7 @@
     font-size: 3rem;
     font-weight: bold;
 
-    button {
+    a {
       background: none;
       border: none;
       font-size: 3rem;
@@ -22,6 +23,7 @@
       color: $cor-texto-principal;
       cursor: pointer;
       transition: color 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
 
       &:hover {
         color: $cor-hover-botao-filtro;
@@ -53,7 +55,8 @@
     }
 
     &-item {
-      button {
+      a {
+        display: inline-block;
         background: none;
         border: none;
         color: $cor-texto-principal;
@@ -61,14 +64,16 @@
         font-weight: 500;
         cursor: pointer;
         transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+        text-decoration: none;
 
         &:hover {
           color: $cor-hover-botao-filtro;
           transform: scale(1.1);
+          font-weight: 800;
         }
       }
 
-      &.active button {
+      &.active a {
         color: $cor-hover-botao-filtro;
         transform: scale(1.2);
         border-bottom: none;
@@ -81,7 +86,7 @@
     display: flex;
     align-items: center;
 
-    button {
+    a {
       background: none;
       border: none;
       font-size: 1rem;
@@ -89,7 +94,7 @@
       gap: 0.5rem;
       cursor: pointer;
       transition: color 0.3s ease, transform 0.3s ease;
-
+      text-decoration: none;
 
       &:hover {
         color: $cor-hover-botao-filtro;
@@ -116,7 +121,6 @@
   padding: 2rem 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   animation: slideDown 0.1s ease forwards;
-
 
   ul.header__nav-lista {
     display: flex;
@@ -156,7 +160,7 @@
       &-item {
         width: 100%;
 
-        button {
+        a {
           text-align: right;
         }
       }

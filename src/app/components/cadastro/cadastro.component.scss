@@ -21,7 +21,6 @@
     top: 80px;
     right: 0;
     width: 50%;
-    height: 100%;
     background-image: url('../../../assets/contabil.png');
     background-size: cover;
   }
@@ -146,8 +145,8 @@
       transition: background-color 0.3s ease, color 0.3s ease;
 
       &:hover {
-        background-color: $cor-destaque;
         color: $cor-primaria;
+        background-color: darken($cor-destaque, 30%);
       }
     }
   }

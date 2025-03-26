@@ -5,7 +5,7 @@ import { FormatUtilsService } from '../global/service/format-utils.service';
 @Injectable({
     providedIn: 'root'
 })
-export class CadastroFormService {
+export class UsuarioFormService {
     constructor(private fb: FormBuilder, private formatUtilsService: FormatUtilsService) { }
 
     criarFormulario(): FormGroup {

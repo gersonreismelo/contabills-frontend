@@ -55,22 +55,24 @@ export class HomeComponent implements OnInit {
   }
 
   processarDadosDeParcelamentos(parcelasData: any): void {
-    if (!parcelasData || !parcelasData.info) {
+    if (!parcelasData || !parcelasData.results) {
       console.warn('Dados de parcelamentos inválidos:', parcelasData);
       return;
     }
 
-    const info = parcelasData.info;
-    this.totalParcelasNaoPagas = info.totalParcelasNaoPagas || 0;
-    this.totalParcelasCount = info.count || 0;
+    const total = parcelasData.info?.count || parcelasData.results.length;
 
-    this.totalParcelas = parcelasData.results?.reduce((sum: number, info: any) => sum + (info.count || 0), 0) || 0;
-    this.parcelasNaoPagas = parcelasData.results?.reduce((sum: number, info: any) => sum + (info.totalParcelasNaoPagas || 0), 0) || 0;
+    const parcelasPagas = parcelasData.results.filter((p: any) => p.enviadoMesAtual).length;
 
-    this.parcelasPagas = this.totalParcelasCount - this.totalParcelasNaoPagas;
+    const parcelasNaoPagas = total - parcelasPagas;
+
+    this.totalParcelasCount = total;
+    this.parcelasPagas = parcelasPagas;
+    this.totalParcelasNaoPagas = parcelasNaoPagas;
+
     this.dadosDoGraficoDePizza = [
-      { name: 'Guias Não Enviadas', value: this.totalParcelasNaoPagas },
-      { name: 'Guias Enviadas', value: this.parcelasPagas }
+      { name: 'Guias Não Enviadas', value: parcelasNaoPagas },
+      { name: 'Guias Enviadas', value: parcelasPagas }
     ];
   }
 
@@ -79,18 +81,18 @@ export class HomeComponent implements OnInit {
       console.warn('Dados de empresas inválidos:', empresasData);
       return;
     }
-  
+
     const empresas = empresasData.results;
     this.totalEmpresas = empresas.length;
-  
+
     this.comCertificadoCount = empresas.filter((empresa: any) => empresa.possuiCertificado).length;
     this.comProcuracaoCount = empresas.filter((empresa: any) => empresa.possuiProcuracao).length;
-  
+
     this.dadosGraficoCertificados = [
       { name: 'Sem Certificado', value: this.totalEmpresas - this.comCertificadoCount },
       { name: 'Com Certificado', value: this.comCertificadoCount }
     ];
-  
+
     this.dadosGraficoProcuracao = [
       { name: 'Sem Procuração', value: this.totalEmpresas - this.comProcuracaoCount },
       { name: 'Com Procuração', value: this.comProcuracaoCount }

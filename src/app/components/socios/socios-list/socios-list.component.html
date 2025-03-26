@@ -64,3 +64,10 @@
     </div>
   </div>
 </div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>Sócio Excluído com sucesso!</p>
+    <button (click)="fecharPopupSucesso()">Ok</button>
+  </div>
+</div>

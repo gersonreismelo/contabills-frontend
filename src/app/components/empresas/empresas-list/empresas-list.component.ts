@@ -26,6 +26,8 @@ export class EmpresasListComponent implements OnInit {
 
   public dadosGraficoCertificado: any[] = [];
   public dadosGraficoProcuracao: any[] = [];
+  public exibirPopupExclusaoSucesso: boolean = false;
+
 
   constructor(
     private empresasService: EmpresasService,

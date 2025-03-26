@@ -23,9 +23,12 @@ export class SociosFormComponent implements OnInit {
   formularioDeSocio: FormGroup;
   socio!: Socio;
   mensagemErro: string | null = null;
+  mensagemErroCep: string | null = null;
+  mensagemDeSucesso: string = '';
   public socioId: number | null = null;
   public loading = false;
   exibirPopup: boolean = false;
+  exibirPopupSucesso: boolean = false;
   estados: any[] = [];
   municipios: any[] = [];
 
@@ -80,28 +83,42 @@ export class SociosFormComponent implements OnInit {
     input.value = this.formUtils.formatarCEP(input.value);
   }
 
-  consultarEnderecoPorCep() {
+  consultarEnderecoPorCep(): void {
     const cep = this.formularioDeSocio.get('enderecoSocio.cep')?.value;
     if (cep && cep.length === 9) {
-
-      this.localizacaoService.consultaCep(cep.replace('-', '')).subscribe({
+      const cepLimpo = cep.replace('-', '');
+      this.localizacaoService.consultaCep(cepLimpo).subscribe({
         next: (res) => {
-          console.log(res)
-          this.formularioDeSocio.patchValue({
-            enderecoSocio: {
-              logradouro: res.logradouro,
-              bairro: res.bairro,
-              cidade: res.localidade,
-              uf: res.uf
-            }
-          });
+          if (res.erro === 'true' || res.erro === true) {
+            this.mensagemErroCep = 'CEP inválido';
+            this.formularioDeSocio.patchValue({
+              enderecoSocio: {
+                logradouro: '',
+                bairro: '',
+                cidade: '',
+                uf: ''
+              }
+            });
+          } else {
+            this.formularioDeSocio.patchValue({
+              enderecoSocio: {
+                logradouro: res.logradouro,
+                bairro: res.bairro,
+                cidade: res.localidade,
+                uf: res.uf
+              }
+            });
+            this.mensagemErroCep = '';
+          }
         },
         error: (err) => {
           console.error('Erro ao consultar CEP:', err);
+          this.mensagemErroCep = 'CEP inválido';
         }
       });
     }
   }
+
 
   formatarCPF(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -135,7 +152,10 @@ export class SociosFormComponent implements OnInit {
 
   atualizarSocio(): void {
     this.sociosService.atualizarSocio(this.socioId!, this.socio).subscribe({
-      next: () => this.router.navigate(['/socios']),
+      next: () => {
+        this.mensagemDeSucesso = 'Sócio atualizado com sucesso!';
+        this.exibirPopupSucesso = true;
+      },
       error: (err) => this.lidarComErro(err, 'atualizar o sócio'),
       complete: () => (this.loading = false)
     });
@@ -143,7 +163,10 @@ export class SociosFormComponent implements OnInit {
 
   adicionarSocio(): void {
     this.sociosService.adicionarSocio(this.socio).subscribe({
-      next: () => this.router.navigate(['/socios']),
+      next: () => {
+        this.mensagemDeSucesso = 'Sócio cadastrado com sucesso!';
+        this.exibirPopupSucesso = true;
+      },
       error: (err) => this.lidarComErro(err, 'adicionar o sócio'),
       complete: () => (this.loading = false)
     });
@@ -157,6 +180,11 @@ export class SociosFormComponent implements OnInit {
   fecharPopup(): void {
     this.exibirPopup = false;
     this.mensagemErro = null;
+  }
+
+  fecharPopupSucesso(): void {
+    this.exibirPopupSucesso = false;
+    this.router.navigate(['/socios']);
   }
 
   private lidarComErro(error: HttpErrorResponse, endpoint: string) {

@@ -16,7 +16,7 @@
       font-size: 2rem;
       font-weight: bold;
 
-      button {
+      a {
         background: none;
         border: none;
         font-size: 2rem;
@@ -24,6 +24,7 @@
         color: $cor-texto-principal;
         cursor: pointer;
         transition: color 0.3s ease, transform 0.3s ease;
+        text-decoration: none;
 
         &:hover {
           color: $cor-hover-botao-filtro;
@@ -41,7 +42,8 @@
         padding: 0;
 
         .footer__nav-item {
-          button {
+          a {
+            display: inline-block;
             background: none;
             border: none;
             color: $cor-texto-principal;
@@ -49,6 +51,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
 
             &:hover {
               color: $cor-hover-botao-filtro;
@@ -56,10 +59,8 @@
             }
 
             &.active {
-              border-bottom: 2px solid $cor-hover-botao-filtro;
               color: $cor-hover-botao-filtro;
               transform: scale(1.2);
-              border-bottom: none;
               font-weight: 600;
             }
           }
@@ -69,7 +70,7 @@
   }
 
   .footer__bottom {
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-size: 0.875rem;
     color: $cor-texto-principal;
 

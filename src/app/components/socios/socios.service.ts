@@ -47,4 +47,9 @@ export class SociosService {
   buscarIdPorCpf(cpf: string): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/buscarIdPorCpf/${cpf}`, { headers: this.getAuthHeaders() });
   }
+
+  buscarSocioPorCpf(cpf: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/buscarPorCpf/${cpf}`, { headers: this.getAuthHeaders() });
+  }
 }
+

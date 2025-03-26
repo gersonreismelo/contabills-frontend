@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormatUtilsService } from '../global/service/format-utils.service';
 import { UsuarioService } from '../usuario/usuario.service';
-import { CadastroFormService } from './cadastro-form.service';
+import { UsuarioFormService } from './cadastro-form.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -17,12 +17,13 @@ export class CadastroComponent {
   formularioDeCadastro: FormGroup;
   mensagemDeErro: string | null = null;
   exibirPopup: boolean = false;
+  exibirPopupSucesso: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private formatUtilsService: FormatUtilsService,
-    private cadastroFormService: CadastroFormService,
+    private cadastroFormService: UsuarioFormService,
     private router: Router
   ) {
     this.formularioDeCadastro = this.cadastroFormService.criarFormulario();
@@ -44,6 +45,11 @@ export class CadastroComponent {
     this.mensagemDeErro = null;
   }
 
+  fecharPopupSucesso(): void {
+    this.exibirPopupSucesso = false;
+    this.router.navigate(['/login']);
+  }
+
   validarFormulario(): boolean {
     if (this.formularioDeCadastro.invalid) {
       this.formatUtilsService.marcarCamposComoDirty(this.formularioDeCadastro);
@@ -61,7 +67,9 @@ export class CadastroComponent {
 
     const formData = this.formularioDeCadastro.value;
     this.usuarioService.cadastrar(formData).subscribe(
-      () => this.router.navigate(['/login']),
+      () => {
+        this.exibirPopupSucesso = true;
+      },
       error => this.mostrarPopup('Erro ao cadastrar usuário!')
     );
   }

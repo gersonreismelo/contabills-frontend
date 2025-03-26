@@ -78,3 +78,17 @@
     </div>
   </div>
 </div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>Parcelamento Excluido com sucesso!</p>
+    <button (click)="fecharPopupSucesso()">Ok</button>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopupEnvioSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>Parcelamento Enviado com sucesso!</p>
+    <button (click)="fecharPopupEnvioSucesso()">Ok</button>
+  </div>
+</div>

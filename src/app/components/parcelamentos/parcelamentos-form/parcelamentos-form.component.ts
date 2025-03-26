@@ -22,6 +22,8 @@ export class ParcelamentosFormComponent implements OnInit {
   loading = false;
   mensagemDeErro: string | null = null;
   exibirPopup: boolean = false;
+  mensagemSucesso: string = '';
+  exibirModalSucesso: boolean = false;
 
   constructor(
     private parcelamentosService: ParcelamentosService,
@@ -77,6 +79,26 @@ export class ParcelamentosFormComponent implements OnInit {
     });
   }
 
+  buscarEmpresa(): void {
+    const apelidoId = this.FormularioDeParcelamento.get('empresa.apelidoId')?.value;
+    if (apelidoId) {
+      this.empresasService.obterEmpresaPorId(apelidoId).subscribe({
+        next: (data) => {
+          if (data && data.razaoSocial) {
+            this.parcelamento.empresa.razaoSocial = data.razaoSocial;
+          } else {
+            this.parcelamento.empresa.razaoSocial = '';
+          }
+        },
+        error: (err) => {
+          console.error('Erro ao buscar empresa:', err);
+          this.parcelamento.empresa.razaoSocial = '';
+        }
+      });
+    } else {
+      this.parcelamento.empresa.razaoSocial = '';
+    }
+  }
 
 
   validarFormulario(): boolean {
@@ -109,7 +131,10 @@ export class ParcelamentosFormComponent implements OnInit {
     console.log("Enviando para o backend:", updatedParcelamento);
 
     this.parcelamentosService.atualizarParcelamento(this.parcelamento).subscribe({
-      next: () => this.router.navigate(['/parcelamentos']),
+      next: () => {
+        this.mensagemSucesso = 'Parcelamento atualizado com sucesso!';
+        this.exibirModalSucesso = true;
+      },
       error: (err) => this.lidarComErro(err, 'atualizar parcelamento'),
       complete: () => (this.loading = false),
     });
@@ -117,21 +142,16 @@ export class ParcelamentosFormComponent implements OnInit {
 
   adicionarParcelamento(): void {
     this.parcelamentosService.adicionarParcelamento(this.parcelamento).subscribe({
-      next: () => this.router.navigate(['/parcelamentos']),
+      next: () => {
+        this.mensagemSucesso = 'Parcelamento cadastrado com sucesso!';
+        this.exibirModalSucesso = true;
+      },
       error: (err) => this.lidarComErro(err, 'adicionar parcelamento'),
       complete: () => (this.loading = false),
     });
   }
 
-  aoMudarApelidoId(): void {
-    const newApelidoId = this.parcelamento.empresa.apelidoId;
-    if (newApelidoId) {
-      this.empresasService.obterEmpresaPorId(newApelidoId).subscribe({
-        next: (empresa) => (this.parcelamento.empresa = empresa),
-        error: (err) => this.lidarComErro(err, 'buscar empresa pelo apelidoId')
-      });
-    }
-  }
+
 
   cancelar(): void {
     this.router.navigate(['/parcelamentos']);
@@ -153,6 +173,11 @@ export class ParcelamentosFormComponent implements OnInit {
   fecharPopup(): void {
     this.exibirPopup = false;
     this.mensagemDeErro = null;
+  }
+
+  fecharModalSucesso(): void {
+    this.exibirModalSucesso = false;
+    this.router.navigate(['/parcelamentos']);
   }
 
   private obterParcelamentoPadrao() {

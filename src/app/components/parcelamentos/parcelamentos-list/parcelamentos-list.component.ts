@@ -24,6 +24,8 @@ export class ParcelamentosListComponent implements OnInit {
   public parcelamentoParaExcluir: Parcelamento | null = null;
   public loading: boolean = false;
   public errorMessage: string = '';
+  public exibirPopupSucesso: boolean = false;
+  public exibirPopupEnvioSucesso: boolean = false;
 
   constructor(
     private parcelamentosService: ParcelamentosService,
@@ -105,6 +107,7 @@ export class ParcelamentosListComponent implements OnInit {
         next: () => {
           this.buscarParcelamentos();
           this.showModal = false;
+          this.exibirPopupEnvioSucesso = true;
         },
         error: (error) => this.lidarComErro(error, 'atualizar parcelamento')
       });
@@ -138,10 +141,19 @@ export class ParcelamentosListComponent implements OnInit {
         next: () => {
           this.buscarParcelamentos();
           this.showDeleteModal = false;
+          this.exibirPopupSucesso = true;
         },
         error: (error) => this.lidarComErro(error, 'excluir parcelamento')
       });
     }
+  }
+
+  fecharPopupSucesso(): void {
+    this.exibirPopupSucesso = false;
+  }
+
+  fecharPopupEnvioSucesso(): void {
+    this.exibirPopupEnvioSucesso = false;
   }
 
   private lidarComErro(error: HttpErrorResponse, endpoint: string) {

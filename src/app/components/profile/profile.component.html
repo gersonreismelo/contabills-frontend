@@ -15,31 +15,37 @@
     <div *ngIf="isEditing">
       <div class="perfil__grupo-formulario">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" [(ngModel)]="usuario.nome" />
+        <input type="text" id="nome" [(ngModel)]="usuario.nome" (ngModelChange)="validarNome()" maxlength="40" />
+        <div *ngIf="erroNome" class="erro">{{ erroNome }}</div>
       </div>
 
       <div class="perfil__grupo-formulario">
         <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" [(ngModel)]="usuario.telefone" />
+        <input type="text" id="telefone" [(ngModel)]="usuario.telefone" (ngModelChange)="onTelefoneChange($event)"
+          maxlength="15" />
+        <div *ngIf="erroTelefone" class="erro">{{ erroTelefone }}</div>
       </div>
 
       <div class="perfil__grupo-formulario">
         <label for="data">Data de Nascimento:</label>
-        <input type="date" id="data" [(ngModel)]="usuario.data" />
+        <input type="date" id="data" [(ngModel)]="usuario.data" required />
       </div>
 
       <div class="perfil__grupo-formulario">
         <label for="senha">Nova Senha:</label>
-        <input type="password" id="senha" [(ngModel)]="novaSenha" />
+        <input type="password" id="senha" [(ngModel)]="novaSenha" (ngModelChange)="validarSenhas()" maxlength="30" />
+        <div *ngIf="erroSenha" class="erro">{{ erroSenha }}</div>
       </div>
 
       <div class="perfil__grupo-formulario">
         <label for="confirmarSenha">Confirmar Nova Senha:</label>
-        <input type="password" id="confirmarSenha" [(ngModel)]="confirmarNovaSenha" />
+        <input type="password" id="confirmarSenha" [(ngModel)]="confirmarNovaSenha" (ngModelChange)="validarSenhas()"
+          maxlength="30" />
+        <div *ngIf="erroConfirmarSenha" class="erro">{{ erroConfirmarSenha }}</div>
       </div>
 
-      <button class="perfil__botao-salvar" (click)="abrirModalConfirmacaoAtualizacao()">Salvar</button>
-      <button class="perfil__botao-cancelar" (click)="cancelarEdicao()">Cancelar</button>
+      <button class="perfil__botao perfil__botao-salvar" (click)="abrirModalConfirmacaoAtualizacao()">Salvar</button>
+      <button class="perfil__botao perfil__botao-cancelar" (click)="cancelarEdicao()">Cancelar</button>
     </div>
 
     <div *ngIf="!isEditing">
@@ -48,7 +54,7 @@
       <p><strong>Data de Nascimento:</strong> {{ usuario?.data | date: 'dd/MM/yyyy' }}</p>
       <p><strong>Telefone:</strong> {{ usuario?.telefone }}</p>
       <p><strong>Senha:</strong> ******** </p>
-      <button class="perfil__botao-editar" (click)="eitarPerfil()">Editar Informações</button>
+      <button class="perfil__botao perfil__botao-editar" (click)="eitarPerfil()">Editar Informações</button>
     </div>
   </div>
 </div>
@@ -71,5 +77,19 @@
       <button (click)="confirmarSalvarAlteracoes()">Sim</button>
       <button (click)="fecharModalConfirmacaoAtualizacao()">Não</button>
     </div>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucessoDados">
+  <div class="popup__overlay--conteudo">
+    <p>Dados atualizados com sucesso!</p>
+    <button (click)="fecharPopupSucessoDados()">Ok</button>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucessoFoto">
+  <div class="popup__overlay--conteudo">
+    <p>Foto atualizada com sucesso!</p>
+    <button (click)="fecharPopupSucessoFoto()">Ok</button>
   </div>
 </div>

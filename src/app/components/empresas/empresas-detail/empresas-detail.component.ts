@@ -18,6 +18,7 @@ export class EmpresasDetailComponent implements OnInit {
   showModal: boolean = false;
   loading: boolean = false;
   mensagemDeErro: string | null = null;
+  exibirPopupSucesso: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,12 +77,18 @@ export class EmpresasDetailComponent implements OnInit {
       this.loading = true;
       this.empresasService.removerEmpresa(this.empresa.apelidoId).subscribe({
         next: () => {
+          this.loading = false;
           this.showModal = false;
-          this.router.navigate(['/empresas']);
+          this.exibirPopupSucesso = true;
         },
         error: (error) => this.lidarComErro(error, 'excluir empresa')
       });
     }
+  }
+
+  fecharPopupSucesso(): void {
+    this.exibirPopupSucesso = false;
+    this.router.navigate(['/empresas']);
   }
 
   lidarComErro(error: HttpErrorResponse, endpoint: string) {

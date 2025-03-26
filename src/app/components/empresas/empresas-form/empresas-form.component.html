@@ -1,9 +1,9 @@
-<div class="cadastro">
+<div class="empresa">
   <h2>Cadastro de Empresa</h2>
-  <p class="cadastro__subtitulo">Preencha os dados abaixo</p>
+  <p class="empresa__subtitulo">Preencha os dados abaixo</p>
 
   <form [formGroup]="FormularioDeEmpresa" (ngSubmit)="saveEmpresa()">
-    <div class="cadastro__alerta cadastro__alerta--aviso">
+    <div class="empresa__alerta empresa__alerta--aviso">
       <p>Se ainda não tiver feito, cadastre ao menos um sócio antes de cadastrar a empresa.</p>
     </div>
 
@@ -13,48 +13,47 @@
 
       <div formArrayName="socios">
 
-        <div *ngFor="let socio of socios.controls; let i = index" [formGroupName]="i" class="cadastro__socio">
-          <h3>Sócio {{ i + 1 }} <button type="button" class="cadastro__socio--remover"
+        <div *ngFor="let socio of socios.controls; let i = index" [formGroupName]="i" class="empresa__socio">
+          <h3>Sócio {{ i + 1 }} <button type="button" class="empresa__socio--remover"
               (click)="removerSocio(i)"></button></h3>
-
-          <div class="cadastro__grupo">
-            <label for="cpfSocio{{i}}">CPF <span class="cadastro__label--obrigatorio">*</span></label>
+          <div class="empresa__grupo">
+            <label for="cpfSocio{{i}}">CPF <span class="empresa__label--obrigatorio">*</span></label>
             <input type="text" id="cpfSocio{{i}}" name="cpfSocio{{i}}" [(ngModel)]="empresa.socios[i].cpf"
-              formControlName="cpf" maxlength="14" (input)="formatarCPF($event, i)">
+              formControlName="cpf" maxlength="14" (blur)="onCpfBlur($event, i)" (input)="formatarCPF($event, i)">
             <div *ngIf="socio.get('cpf')?.dirty && socio.get('cpf')?.invalid">
               <small *ngIf="socio.get('cpf')?.hasError('required')">CPF é obrigatório.</small>
               <small *ngIf="socio.get('cpf')?.hasError('cpfInvalido')">CPF inválido.</small>
             </div>
           </div>
-
-          <div *ngIf="mensagemDeErro" class="cadastro__alerta cadastro__alerta--erro">
-            <p>{{ mensagemDeErro }}</p>
+          <div *ngIf="empresa.socios[i]?.nome">
+            <p><strong>Esse CPF pertence ao Sócio: {{ empresa.socios[i].nome }}</strong></p>
           </div>
         </div>
       </div>
 
-      <div class="cadastro__botoes--grupo">
+      <div class="empresa__botoes--grupo">
         <div *ngIf="tipoEmpresa !== 'Empresário Individual'">
-          <button type="button" class="cadastro__botao--adicionar" [disabled]="socios.length >= 10"
+          <button type="button" class="empresa__botao--adicionar" [disabled]="socios.length >= 10"
             (click)="adicionarSocio()">
             Adicionar Sócio
           </button>
         </div>
-        <button type="button" class="cadastro__botao--cadastrar-socio" (click)="navegarParaCadastroSocio()">Cadastrar
+        <button type="button" class="empresa__botao--cadastrar-socio"
+          (click)="confirmarNavegacaoCadastroSocio()">Cadastrar
           Sócio</button>
       </div>
 
     </fieldset>
 
-    <div *ngIf=" tipoEmpresa === 'Empresário Individual'" class="cadastro__alerta cadastro__alerta--aviso">
+    <div *ngIf=" tipoEmpresa === 'Empresário Individual'" class="empresa__alerta empresa__alerta--aviso">
       <p>Empresários Individuais (EI) não têm sócios, são empresas formadas por um único proprietário.</p>
     </div>
 
     <fieldset>
       <legend>Dados da Empresa</legend>
-      <div class="cadastro__grupo-formulario--inline">
-        <div class="cadastro__grupo">
-          <label for="apelidoId">Apelido <span class="cadastro__label--obrigatorio">*</span></label>
+      <div class="empresa__grupo-formulario--inline empresa__grupo-formulario--inline-primeiro-menor">
+        <div class="empresa__grupo">
+          <label for="apelidoId">Apelido <span class="empresa__label--obrigatorio">*</span></label>
           <input type="number" id="apelidoId" [(ngModel)]="empresa.apelidoId" name="apelidoId"
             formControlName="apelidoId" maxlength="7" (input)="limitarApelido($event)" [readonly]="isEditing">
           <div *ngIf="FormularioDeEmpresa.get('apelidoId')?.dirty && FormularioDeEmpresa.get('apelidoId')?.invalid">
@@ -62,8 +61,8 @@
           </div>
         </div>
 
-        <div class="cadastro__grupo">
-          <label>Razão Social <span class="cadastro__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo">
+          <label>Razão Social <span class="empresa__label--obrigatorio">*</span></label>
           <input type="text" id="razaoSocial" [(ngModel)]="empresa.razaoSocial" formControlName="razaoSocial"
             name="razaoSocial" maxlength="40">
           <div *ngIf="FormularioDeEmpresa.get('razaoSocial')?.dirty && FormularioDeEmpresa.get('razaoSocial')?.invalid">
@@ -75,8 +74,8 @@
           </div>
         </div>
 
-        <div class="cadastro__grupo">
-          <label>Tipo de Empresa <span class="cadastro__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo">
+          <label>Tipo de Empresa <span class="empresa__label--obrigatorio">*</span></label>
           <select formControlName="tipoEmpresa" id="tipoEmpresa" [(ngModel)]="empresa.tipoEmpresa" name="tipoEmpresa"
             (change)="aoMudarTipoEmpresa()">
             <option value="Sociedade Empresária Limitada">Sociedade Empresária Limitada</option>
@@ -88,9 +87,9 @@
           </div>
         </div>
       </div>
-      <div class="cadastro__grupo-formulario--inline">
-        <div class="cadastro__grupo">
-          <label>CNPJ <span class="cadastro__label--obrigatorio">*</span></label>
+      <div class="empresa__grupo-formulario--inline empresa__grupo-formulario--inline-dois">
+        <div class="empresa__grupo">
+          <label>CNPJ <span class="empresa__label--obrigatorio">*</span></label>
           <input type="text" formControlName="cnpj" id="cnpj" [(ngModel)]="empresa.cnpj" name="cnpj" maxlength="18"
             (input)="formatarCNPJ($event)">
           <div *ngIf="FormularioDeEmpresa.get('cnpj')?.dirty && FormularioDeEmpresa.get('cnpj')?.invalid">
@@ -99,8 +98,8 @@
           </div>
         </div>
 
-        <div class="cadastro__grupo">
-          <label>IPTU <span class="cadastro__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo">
+          <label>IPTU <span class="empresa__label--obrigatorio">*</span></label>
           <input type="text" formControlName="iptu" id="iptu" [(ngModel)]="empresa.iptu" name="iptu" maxlength="20">
           <div *ngIf="FormularioDeEmpresa.get('iptu')?.dirty && FormularioDeEmpresa.get('iptu')?.invalid">
             <small *ngIf="FormularioDeEmpresa.get('iptu')?.hasError('required')">IPTU é obrigatório.</small>
@@ -108,9 +107,9 @@
         </div>
       </div>
 
-      <div class="cadastro__grupo-formulario--inline">
-        <div class="cadastro__grupo">
-          <label>Email <span class="cadastro__label--obrigatorio">*</span></label>
+      <div class="empresa__grupo-formulario--inline empresa__grupo-formulario--inline-primeiro-maior">
+        <div class="empresa__grupo">
+          <label>Email <span class="empresa__label--obrigatorio">*</span></label>
           <input type="email" formControlName="email" id="email" [(ngModel)]="empresa.email" name="email"
             maxlength="100">
           <div *ngIf="FormularioDeEmpresa.get('email')?.dirty && FormularioDeEmpresa.get('email')?.invalid">
@@ -119,8 +118,8 @@
           </div>
         </div>
 
-        <div class="cadastro__grupo">
-          <label>Telefone <span class="cadastro__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo">
+          <label>Telefone <span class="empresa__label--obrigatorio">*</span></label>
           <input type="text" formControlName="telefone" id="telefone" [(ngModel)]="empresa.telefone" name="telefone"
             (input)="formatarTelefone($event)">
           <div *ngIf="FormularioDeEmpresa.get('telefone')?.dirty && FormularioDeEmpresa.get('telefone')?.invalid">
@@ -130,8 +129,8 @@
           </div>
         </div>
 
-        <div class="cadastro__grupo">
-          <label>Capital Social da Empresa <span class="cadastro__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo">
+          <label>Capital Social Empresa <span class="empresa__label--obrigatorio">*</span></label>
           <input type="number" formControlName="capitalSocialEmpresa" id="capitalSocialEmpresa"
             [(ngModel)]="empresa.capitalSocialEmpresa" name="capitalSocialEmpresa" min="0" max="99999998"
             (input)="limitarCapitalSocial()">
@@ -146,9 +145,9 @@
         </div>
       </div>
 
-      <div class="cadastro__grupo">
-        <label>Possui Procuração? <span class="cadastro__label--obrigatorio">*</span></label>
-        <div class="cadastro__grupo--radio">
+      <div class="empresa__grupo">
+        <label>Possui Procuração? <span class="empresa__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo--radio">
           <label>
             <input type="radio" formControlName="possuiProcuracao" [(ngModel)]="empresa.possuiProcuracao"
               name="possuiProcuracao" [value]="true"> Sim
@@ -165,9 +164,9 @@
         </div>
       </div>
 
-      <div class="cadastro__grupo">
-        <label>Possui Certificado? <span class="cadastro__label--obrigatorio">*</span></label>
-        <div class="cadastro__grupo--radio">
+      <div class="empresa__grupo">
+        <label>Possui Certificado? <span class="empresa__label--obrigatorio">*</span></label>
+        <div class="empresa__grupo--radio">
           <label>
             <input type="radio" formControlName="possuiCertificado" [(ngModel)]="empresa.possuiCertificado"
               name="possuiCertificado" [value]="true"> Sim
@@ -188,9 +187,9 @@
         <fieldset>
           <legend>Endereço da Empresa</legend>
 
-          <div class="cadastro__grupo-formulario--inline">
-            <div class="cadastro__grupo">
-              <label>CEP <span class="cadastro__label--obrigatorio">*</span></label>
+          <div class="empresa__grupo-formulario--inline empresa__grupo-formulario--inline-meio-maior">
+            <div class="empresa__grupo">
+              <label>CEP <span class="empresa__label--obrigatorio">*</span></label>
               <input type="text" formControlName="cep" maxlength="9" id="cepEmpresa"
                 [(ngModel)]="empresa.enderecoEmpresa.cep" name="cepEmpresa" placeholder="CEP"
                 (input)="formatarCEP($event)" (blur)="consultarEnderecoPorCep()">
@@ -201,10 +200,14 @@
                 <small *ngIf="FormularioDeEmpresa.get('enderecoEmpresa.cep')?.hasError('pattern')">Formato de CEP
                   inválido.</small>
               </div>
+              <div *ngIf="mensagemDeErroCep">
+                <small class="erro">{{ mensagemDeErroCep }}</small>
+              </div>
             </div>
 
-            <div class="cadastro__grupo">
-              <label>Logradouro <span class="cadastro__label--obrigatorio">*</span></label>
+
+            <div class="empresa__grupo">
+              <label>Logradouro <span class="empresa__label--obrigatorio">*</span></label>
               <input type="text" formControlName="logradouro" id="logradouroEmpresa"
                 [(ngModel)]="empresa.enderecoEmpresa.logradouro" name="logradouroEmpresa" placeholder="Logradouro"
                 minlength="3" maxlength="100">
@@ -218,8 +221,8 @@
               </div>
             </div>
 
-            <div class="cadastro__grupo">
-              <label>Número <span class="cadastro__label--obrigatorio">*</span></label>
+            <div class="empresa__grupo">
+              <label>Número <span class="empresa__label--obrigatorio">*</span></label>
               <input type="text" formControlName="numero" id="numeroEmpresa"
                 [(ngModel)]="empresa.enderecoEmpresa.numero" name="numeroEmpresa" placeholder="Número" maxlength="7">
               <div
@@ -231,9 +234,37 @@
           </div>
 
 
-          <div class="cadastro__grupo-formulario--inline">
-            <div class="cadastro__grupo">
-              <label>Bairro <span class="cadastro__label--obrigatorio">*</span></label>
+          <div class="empresa__grupo-formulario--inline empresa__grupo-formulario--inline-quatro">
+            <div class="empresa__grupo">
+              <label>Estado <span class="empresa__label--obrigatorio">*</span></label>
+              <select formControlName="uf" id="ufEmpresa" [(ngModel)]="empresa.enderecoEmpresa.uf" name="ufEmpresa"
+                placeholder="UF">
+                <option value="">Selecione</option>
+                <option *ngFor="let estado of estados" [value]="estado.sigla">{{ estado.nome }}</option>
+              </select>
+              <div
+                *ngIf="FormularioDeEmpresa.get('enderecoEmpresa')?.get('uf')?.dirty && FormularioDeEmpresa.get('enderecoEmpresa')?.get('uf')?.invalid">
+                <small *ngIf="FormularioDeEmpresa.get('enderecoEmpresa.uf')?.hasError('required')">Estado é
+                  obrigatória.</small>
+              </div>
+            </div>
+
+            <div class="empresa__grupo">
+              <label>Cidade <span class="empresa__label--obrigatorio">*</span></label>
+              <select formControlName="cidade" id="cidadeEmpresa" [(ngModel)]="empresa.enderecoEmpresa.cidade"
+                name="cidadeEmpresa" placeholder="Cidade">
+                <option value="">Selecione</option>
+                <option *ngFor="let municipio of municipios" [value]="municipio.nome">{{ municipio.nome }}</option>
+              </select>
+              <div
+                *ngIf="FormularioDeEmpresa.get('enderecoEmpresa')?.get('cidade')?.dirty && FormularioDeEmpresa.get('enderecoEmpresa')?.get('cidade')?.invalid">
+                <small *ngIf="FormularioDeEmpresa.get('enderecoEmpresa.cidade')?.hasError('required')">Cidade é
+                  obrigatória.</small>
+              </div>
+            </div>
+
+            <div class="empresa__grupo">
+              <label>Bairro <span class="empresa__label--obrigatorio">*</span></label>
               <input type="text" formControlName="bairro" id="bairroEmpresa"
                 [(ngModel)]="empresa.enderecoEmpresa.bairro" name="bairroEmpresa" placeholder="Bairro" minlength="3"
                 maxlength="20">
@@ -247,35 +278,7 @@
               </div>
             </div>
 
-            <div class="cadastro__grupo">
-              <label>Estado <span class="cadastro__label--obrigatorio">*</span></label>
-              <select formControlName="uf" id="ufEmpresa" [(ngModel)]="empresa.enderecoEmpresa.uf" name="ufEmpresa"
-                placeholder="UF">
-                <option value="">Selecione</option>
-                <option *ngFor="let estado of estados" [value]="estado.sigla">{{ estado.nome }}</option>
-              </select>
-              <div
-                *ngIf="FormularioDeEmpresa.get('enderecoEmpresa')?.get('uf')?.dirty && FormularioDeEmpresa.get('enderecoEmpresa')?.get('uf')?.invalid">
-                <small *ngIf="FormularioDeEmpresa.get('enderecoEmpresa.uf')?.hasError('required')">Estado é
-                  obrigatória.</small>
-              </div>
-            </div>
-
-            <div class="cadastro__grupo">
-              <label>Cidade <span class="cadastro__label--obrigatorio">*</span></label>
-              <select formControlName="cidade" id="cidadeEmpresa" [(ngModel)]="empresa.enderecoEmpresa.cidade"
-                name="cidadeEmpresa" placeholder="Cidade">
-                <option value="">Selecione</option>
-                <option *ngFor="let municipio of municipios" [value]="municipio.nome">{{ municipio.nome }}</option>
-              </select>
-              <div
-                *ngIf="FormularioDeEmpresa.get('enderecoEmpresa')?.get('cidade')?.dirty && FormularioDeEmpresa.get('enderecoEmpresa')?.get('cidade')?.invalid">
-                <small *ngIf="FormularioDeEmpresa.get('enderecoEmpresa.cidade')?.hasError('required')">Cidade é
-                  obrigatória.</small>
-              </div>
-            </div>
-
-            <div class="cadastro__grupo">
+            <div class="empresa__grupo">
               <label>Complemento</label>
               <input type="text" formControlName="complemento" id="complementoEmpresa"
                 [(ngModel)]="empresa.enderecoEmpresa.complemento" name="complementoEmpresa" placeholder="Complemento"
@@ -296,5 +299,20 @@
   <div class="popup__overlay--content">
     <p>{{ mensagemDeErro }}</p>
     <button (click)="fecharPopup()">Fechar</button>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirModalSucesso">
+  <div class="popup__overlay--content">
+    <p>{{ mensagemSucesso }}</p>
+    <button (click)="fecharModalSucesso()">Fechar</button>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopupConfirmacao">
+  <div class="popup__overlay--content">
+    <p>Não tem o sócio da empresa cadastrado? Gostaria de navegar para a tela de cadastro de sócio?</p>
+    <button class="popup__overlay--content--positivo" (click)="navegarParaCadastroSocio()">Sim</button>
+    <button class="popup__overlay--content--negativo" (click)="fecharPopupConfirmacao()">Não</button>
   </div>
 </div>

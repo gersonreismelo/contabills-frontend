@@ -6,18 +6,18 @@
     <fieldset>
       <legend>Dados do Sócio</legend>
 
-      <div class="socio__grupo-inline">
-        <div class="socio__grupo">
-          <label for="nomeSocio">Nome <span class="socio__grupo--obrigatorio">*</span></label>
-          <input type="text" id="nomeSocio" [(ngModel)]="socio.nome" name="nomeSocio" formControlName="nome" required
-            maxlength="100">
-          <div *ngIf="formularioDeSocio.get('nome')?.dirty && formularioDeSocio.get('nome')?.invalid">
-            <small *ngIf="formularioDeSocio.get('nome')?.hasError('required')">Nome é obrigatório.</small>
-            <small *ngIf="formularioDeSocio.get('nome')?.hasError('minlength')">Nome deve ter pelo menos 3
-              caracteres.</small>
-          </div>
+      <div class="socio__grupo">
+        <label for="nomeSocio">Nome <span class="socio__grupo--obrigatorio">*</span></label>
+        <input type="text" id="nomeSocio" [(ngModel)]="socio.nome" name="nomeSocio" formControlName="nome" required
+          maxlength="100">
+        <div *ngIf="formularioDeSocio.get('nome')?.dirty && formularioDeSocio.get('nome')?.invalid">
+          <small *ngIf="formularioDeSocio.get('nome')?.hasError('required')">Nome é obrigatório.</small>
+          <small *ngIf="formularioDeSocio.get('nome')?.hasError('minlength')">Nome deve ter pelo menos 3
+            caracteres.</small>
         </div>
+      </div>
 
+      <div class="socio__grupo-inline socio__grupo-inline-quatro">
         <div class="socio__grupo">
           <label for="cpfSocio">CPF <span class="socio__grupo--obrigatorio">*</span></label>
           <input type="text" id="cpfSocio" [(ngModel)]="socio.cpf" name="cpfSocio" formControlName="cpf" required
@@ -38,9 +38,7 @@
               obrigatório.</small>
           </div>
         </div>
-      </div>
 
-      <div class="socio__grupo-inline">
         <div class="socio__grupo">
           <label for="rgSocio">RG <span class="socio__grupo--obrigatorio">*</span></label>
           <input type="text" id="rgSocio" [(ngModel)]="socio.rg" name="rgSocio" formControlName="rg" required
@@ -60,60 +58,10 @@
               obrigatória.</small>
           </div>
         </div>
-
-        <div class="socio__grupo">
-          <label for="cnhSocio">CNH</label>
-          <input type="text" id="cnhSocio" [(ngModel)]="socio.cnh" name="cnhSocio" formControlName="cnh" maxlength="20">
-        </div>
-
-        <div class="socio__grupo">
-          <label for="dataEmissaoCnhSocio">Data de Emissão da CNH</label>
-          <input type="date" id="dataEmissaoCnhSocio" [(ngModel)]="socio.dataDeEmissaoCnh" name="dataEmissaoCnhSocio"
-            formControlName="dataDeEmissaoCnh">
-        </div>
-
-        <div class="socio__grupo">
-          <label for="dataValidadeCnhSocio">Data de Validade da CNH</label>
-          <input type="date" id="dataValidadeCnhSocio" [(ngModel)]="socio.dataDeValidadeCnh" name="dataValidadeCnhSocio"
-            formControlName="dataDeValidadeCnh">
-        </div>
       </div>
 
-      <div class="socio__grupo-inline">
-        <div class="socio__grupo">
-          <label for="nacionalidadeSocio">Nacionalidade <span class="socio__grupo--obrigatorio">*</span></label>
-          <input type="text" id="nacionalidadeSocio" [(ngModel)]="socio.nacionalidade" name="nacionalidadeSocio"
-            formControlName="nacionalidade" required maxlength="50">
-          <div *ngIf="formularioDeSocio.get('nacionalidade')?.dirty && formularioDeSocio.get('nacionalidade')?.invalid">
-            <small *ngIf="formularioDeSocio.get('nacionalidade')?.hasError('required')">Nacionalidade é
-              obrigatória.</small>
-          </div>
-        </div>
 
-        <div class="socio__grupo">
-          <label for="nomeMaeSocio">Nome da Mãe <span class="socio__grupo--obrigatorio">*</span></label>
-          <input type="text" id="nomeMaeSocio" [(ngModel)]="socio.nomeDaMae" name="nomeMaeSocio"
-            formControlName="nomeDaMae" required maxlength="100">
-          <div *ngIf="formularioDeSocio.get('nomeDaMae')?.dirty && formularioDeSocio.get('nomeDaMae')?.invalid">
-            <small *ngIf="formularioDeSocio.get('nomeDaMae')?.hasError('required')">Nome da mãe é obrigatório.</small>
-            <small *ngIf="formularioDeSocio.get('nomeDaMae')?.hasError('minlength')">Nome deve ter pelo menos 3
-              caracteres.</small>
-          </div>
-        </div>
-
-        <div class="socio__grupo">
-          <label for="nomePaiSocio">Nome do Pai <span class="socio__grupo--obrigatorio">*</span></label>
-          <input type="text" id="nomePaiSocio" [(ngModel)]="socio.nomeDoPai" name="nomePaiSocio"
-            formControlName="nomeDoPai" required maxlength="100">
-          <div *ngIf="formularioDeSocio.get('nomeDoPai')?.dirty && formularioDeSocio.get('nomeDoPai')?.invalid">
-            <small *ngIf="formularioDeSocio.get('nomeDoPai')?.hasError('required')">Nome do pai é obrigatório.</small>
-            <small *ngIf="formularioDeSocio.get('nomeDoPai')?.hasError('minlength')">Nome deve ter pelo menos 3
-              caracteres.</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="socio__grupo-inline">
+      <div class="socio__grupo-inline socio__grupo-inline-tres">
         <div class="socio__grupo">
           <label for="estadoCivilSocio">Estado Civil <span class="socio__grupo--obrigatorio">*</span></label>
           <select id="estadoCivilSocio" [(ngModel)]="socio.estadoCivil" name="estadoCivilSocio"
@@ -151,11 +99,72 @@
         </div>
 
         <div class="socio__grupo">
+          <label for="nacionalidadeSocio">Nacionalidade <span class="socio__grupo--obrigatorio">*</span></label>
+          <input type="text" id="nacionalidadeSocio" [(ngModel)]="socio.nacionalidade" name="nacionalidadeSocio"
+            formControlName="nacionalidade" required maxlength="50">
+          <div *ngIf="formularioDeSocio.get('nacionalidade')?.dirty && formularioDeSocio.get('nacionalidade')?.invalid">
+            <small *ngIf="formularioDeSocio.get('nacionalidade')?.hasError('required')">Nacionalidade é
+              obrigatória.</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="socio__grupo-inline socio__grupo-inline-primeiro-menor">
+        <div class="socio__grupo">
           <label for="profissaoSocio">Profissão <span class="socio__grupo--obrigatorio">*</span></label>
           <input type="text" id="profissaoSocio" [(ngModel)]="socio.profissao" name="profissaoSocio"
             formControlName="profissao" required maxlength="50">
           <div *ngIf="formularioDeSocio.get('profissao')?.dirty && formularioDeSocio.get('profissao')?.invalid">
             <small *ngIf="formularioDeSocio.get('profissao')?.hasError('required')">Profissão é obrigatória.</small>
+          </div>
+        </div>
+
+        <div class="socio__grupo">
+          <label for="nomeMaeSocio">Nome da Mãe <span class="socio__grupo--obrigatorio">*</span></label>
+          <input type="text" id="nomeMaeSocio" [(ngModel)]="socio.nomeDaMae" name="nomeMaeSocio"
+            formControlName="nomeDaMae" required maxlength="100">
+          <div *ngIf="formularioDeSocio.get('nomeDaMae')?.dirty && formularioDeSocio.get('nomeDaMae')?.invalid">
+            <small *ngIf="formularioDeSocio.get('nomeDaMae')?.hasError('required')">Nome da mãe é obrigatório.</small>
+            <small *ngIf="formularioDeSocio.get('nomeDaMae')?.hasError('minlength')">Nome deve ter pelo menos 3
+              caracteres.</small>
+          </div>
+        </div>
+
+        <div class="socio__grupo">
+          <label for="nomePaiSocio">Nome do Pai </label>
+          <input type="text" id="nomePaiSocio" [(ngModel)]="socio.nomeDoPai" name="nomePaiSocio"
+            formControlName="nomeDoPai" maxlength="100">
+          <div *ngIf="formularioDeSocio.get('nomeDoPai')?.dirty && formularioDeSocio.get('nomeDoPai')?.invalid">
+            <small *ngIf="formularioDeSocio.get('nomeDoPai')?.hasError('minlength')">Nome deve ter pelo menos 3
+              caracteres.</small>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="socio__grupo-inline socio__grupo-inline-tres">
+        <div class="socio__grupo">
+          <label for="cnhSocio">CNH</label>
+          <input type="text" id="cnhSocio" [(ngModel)]="socio.cnh" name="cnhSocio" formControlName="cnh" maxlength="20">
+        </div>
+
+        <div class="socio__grupo">
+          <label for="dataEmissaoCnhSocio">Data de Emissão da CNH</label>
+          <input type="date" id="dataEmissaoCnhSocio" [(ngModel)]="socio.dataDeEmissaoCnh" name="dataEmissaoCnhSocio"
+            formControlName="dataDeEmissaoCnh">
+        </div>
+
+        <div class="socio__grupo">
+          <label for="dataValidadeCnhSocio">Data de Validade da CNH</label>
+          <input type="date" id="dataValidadeCnhSocio" [(ngModel)]="socio.dataDeValidadeCnh" name="dataValidadeCnhSocio"
+            formControlName="dataDeValidadeCnh">
+          <div
+            *ngIf="formularioDeSocio.get('dataDeValidadeCnh')?.dirty && formularioDeSocio.get('dataDeValidadeCnh')?.invalid">
+            <small *ngIf="formularioDeSocio.get('dataDeValidadeCnh')?.hasError('required')">Data de validade é
+              obrigatória.</small>
+            <small *ngIf="formularioDeSocio.get('dataDeValidadeCnh')?.hasError('dataNaoFutura')">A data deve ser
+              futura.</small>
           </div>
         </div>
       </div>
@@ -165,7 +174,7 @@
         <fieldset>
           <legend>Endereço do Sócio</legend>
 
-          <div class="socio__grupo-inline">
+          <div class="socio__grupo-inline socio__grupo-inline-meio-maior">
             <div class="socio__grupo">
               <label>CEP <span class="socio__grupo--obrigatorio">*</span></label>
               <input type="text" formControlName="cep" maxlength="9" id="cepSocio" [(ngModel)]="socio.enderecoSocio.cep"
@@ -176,6 +185,9 @@
                   obrigatório.</small>
                 <small *ngIf="formularioDeSocio.get('enderecoSocio.cep')?.hasError('pattern')">Formato de CEP
                   inválido.</small>
+              </div>
+              <div *ngIf="mensagemErroCep">
+                <small class="erro">{{ mensagemErroCep }}</small>
               </div>
             </div>
 
@@ -206,20 +218,7 @@
             </div>
           </div>
 
-          <div class="socio__grupo-inline">
-            <div class="socio__grupo">
-              <label>Bairro <span class="socio__grupo--obrigatorio">*</span></label>
-              <input type="text" formControlName="bairro" id="bairroSocio" [(ngModel)]="socio.enderecoSocio.bairro"
-                name="bairroSocio" placeholder="Bairro" minlength="3" maxlength="40">
-              <div
-                *ngIf="formularioDeSocio.get('enderecoSocio')?.get('bairro')?.dirty && formularioDeSocio.get('enderecoSocio')?.get('bairro')?.invalid">
-                <small *ngIf="formularioDeSocio.get('enderecoSocio.bairro')?.hasError('required')">Bairro é
-                  obrigatório.</small>
-                <small *ngIf="formularioDeSocio.get('enderecoSocio.bairro')?.hasError('minlength')">Bairro deve ter pelo
-                  menos 3 caracteres.</small>
-              </div>
-            </div>
-
+          <div class="socio__grupo-inline socio__grupo-inline-quatro">
             <div class="socio__grupo">
               <label>Estado <span class="socio__grupo--obrigatorio">*</span></label>
               <select formControlName="uf" id="ufSocio" [(ngModel)]="socio.enderecoSocio.uf" name="ufSocio"
@@ -249,6 +248,19 @@
             </div>
 
             <div class="socio__grupo">
+              <label>Bairro <span class="socio__grupo--obrigatorio">*</span></label>
+              <input type="text" formControlName="bairro" id="bairroSocio" [(ngModel)]="socio.enderecoSocio.bairro"
+                name="bairroSocio" placeholder="Bairro" minlength="3" maxlength="40">
+              <div
+                *ngIf="formularioDeSocio.get('enderecoSocio')?.get('bairro')?.dirty && formularioDeSocio.get('enderecoSocio')?.get('bairro')?.invalid">
+                <small *ngIf="formularioDeSocio.get('enderecoSocio.bairro')?.hasError('required')">Bairro é
+                  obrigatório.</small>
+                <small *ngIf="formularioDeSocio.get('enderecoSocio.bairro')?.hasError('minlength')">Bairro deve ter pelo
+                  menos 3 caracteres.</small>
+              </div>
+            </div>
+
+            <div class="socio__grupo">
               <label for="complementoSocio">Complemento</label>
               <input type="text" id="complementoSocio" [(ngModel)]="socio.enderecoSocio.complemento"
                 name="complementoSocio" formControlName="complemento" placeholder="Complemento" maxlength="50">
@@ -266,6 +278,15 @@
 </div>
 
 <div class="popup__overlay" *ngIf="exibirPopup">
-  <div class="popup__overlay--content">
+  <div class="popup__overlay--conteudo">
     <p>{{ mensagemErro }}</p>
     <button (click)="fecharPopup()">Fechar</button>
+  </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>{{ mensagemDeSucesso }}</p>
+    <button (click)="fecharPopupSucesso()">Ok</button>
+  </div>
+</div>

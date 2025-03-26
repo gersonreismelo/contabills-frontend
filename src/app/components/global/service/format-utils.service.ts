@@ -110,4 +110,17 @@ export class FormatUtilsService {
     const confirmarSenha = formGroup.get('confirmarSenha')?.value;
     return senha !== confirmarSenha ? { senhaDiferente: true } : null;
   }
+
+  dataFuturaValidator(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null;
+    }
+    const dataInformada = new Date(control.value);
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    dataInformada.setHours(0, 0, 0, 0);
+
+    return dataInformada <= hoje ? { dataNaoFutura: true } : null;
+  }
+
 }

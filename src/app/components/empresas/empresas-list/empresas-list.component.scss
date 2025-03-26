@@ -24,7 +24,7 @@
       outline: none;
       padding: 0.8rem 1rem;
       font-size: 1rem;
-      border-radius: 20px;
+      border-radius: 12px;
       background-color: $cor-fundo;
       color: $cor-texto-escuro;
       margin-left: 10px;
@@ -60,7 +60,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: white;
+        background-color: lighten($cor-subtitulo, 10%);
         color: $cor-primaria;
         border-color: $cor-primaria;
         transform: scale(1.05);

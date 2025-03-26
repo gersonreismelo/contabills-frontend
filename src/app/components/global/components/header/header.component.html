@@ -1,6 +1,6 @@
 <header class="header">
   <div class="header__logo" routerLinkActive="active">
-    <button [routerLink]="['/home']" (click)="fecharMenuHamburger()">Contabills</button>
+    <a [routerLink]="['/home']" (click)="fecharMenuHamburger()">Contabills</a>
   </div>
 
   <button class="header__hamburger" *ngIf="usuarioLogado" (click)="alternarMenuHamburger()">&#9776;</button>
@@ -8,26 +8,26 @@
   <nav class="header__nav" *ngIf="usuarioLogado" [class.active]="menuAberto">
     <ul class="header__nav-lista">
       <li class="header__nav-usuario-info header__nav-item" routerLinkActive="active">
-        <button [routerLink]="['/profile']" (click)="fecharMenuHamburger()">
+        <a [routerLink]="['/profile']" (click)="fecharMenuHamburger()">
           <ng-container *ngIf="usuarioFotoUrl; else defaultProfile">
             <img class="header__nav-perfil-img" [src]="usuarioFotoUrl" alt="Foto do usuário">
           </ng-container>
           <ng-template #defaultProfile>
             Perfil
           </ng-template>
-        </button>
+        </a>
       </li>
       <li class="header__nav-item" routerLinkActive="active">
-        <button [routerLink]="['/socios']" (click)="fecharMenuHamburger()">Clientes</button>
+        <a [routerLink]="['/socios']" (click)="fecharMenuHamburger()">Clientes</a>
       </li>
       <li class="header__nav-item" routerLinkActive="active">
-        <button [routerLink]="['/empresas']" (click)="fecharMenuHamburger()">Empresas</button>
+        <a [routerLink]="['/empresas']" (click)="fecharMenuHamburger()">Empresas</a>
       </li>
       <li class="header__nav-item" routerLinkActive="active">
-        <button [routerLink]="['/parcelamentos']" (click)="fecharMenuHamburger()">Parcelamentos</button>
+        <a [routerLink]="['/parcelamentos']" (click)="fecharMenuHamburger()">Parcelamentos</a>
       </li>
       <li class="header__nav-item" routerLinkActive="active">
-        <button (click)="logout(); fecharMenuHamburger()" class="botao">Sair</button>
+        <a (click)="logout(); fecharMenuHamburger()" class="botao">Sair</a>
       </li>
     </ul>
   </nav>

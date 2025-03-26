@@ -72,3 +72,10 @@
 <ng-template #loading>
   <p>Carregando detalhes da empresa...</p>
 </ng-template>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>Empresa Excluída com sucesso!</p>
+    <button (click)="fecharPopupSucesso()">Ok</button>
+  </div>
+</div>

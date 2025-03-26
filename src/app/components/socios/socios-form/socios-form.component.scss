@@ -66,12 +66,6 @@ body {
                 color: $cor-erro;
             }
 
-            @each $selectors, $width in $input-widths {
-                #{$selectors} {
-                    width: $width;
-                }
-            }
-
             label {
                 display: block;
                 margin-bottom: 5px;
@@ -118,9 +112,45 @@ body {
 
         .socio__grupo-inline {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
+            box-sizing: border-box;
 
         }
+
+        .socio__grupo-inline-quatro>.socio__grupo {
+            flex: 0 0 24%;
+
+            select {
+                width: 100%;
+            }
+        }
+
+        .socio__grupo-inline-tres>.socio__grupo {
+            flex: 0 0 32.4%;
+
+            select {
+                width: 100%;
+            }
+        }
+
+        .socio__grupo-inline-primeiro-menor>.socio__grupo {
+            flex: 0 0 38.5%;
+
+            &:first-child {
+                flex: 0 0 20%;
+            }
+        }
+
+        .socio__grupo-inline-meio-maior>.socio__grupo {
+            flex: 0 0 18%;
+
+            &:nth-child(2) {
+                flex: 0 0 60.8%;
+            }
+
+        }
+
 
 
         button[type="submit"] {
@@ -217,7 +247,7 @@ body {
     align-items: center;
     z-index: 1000;
 
-    &--content {
+    &--conteudo {
         background: $cor-primaria;
         padding: 20px;
         border-radius: $raio-borda;
@@ -249,33 +279,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 1350px) {
-    .socio {
-        transform: scale(1);
-    }
-
-    .socio__grupo-inline {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-
-    .socio__grupo-inline>.socio__grupo {
-        flex: 0 0 calc(50% - 20px);
-        box-sizing: border-box;
-    }
-
-
-    .socio form input,
-    .socio form select {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-    }
-}
-
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
     .socio__grupo-inline {
         flex-direction: column;
         gap: 10px;

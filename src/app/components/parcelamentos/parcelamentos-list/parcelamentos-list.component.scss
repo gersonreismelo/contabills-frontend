@@ -58,7 +58,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: white;
+          background-color: lighten($cor-subtitulo, 10%);
           color: $cor-primaria;
           border-color: $cor-primaria;
           transform: scale(1.05);
@@ -315,6 +315,8 @@
       }
     }
   }
+
+
 
   @media (max-width: 800px) {
     .parcelamento {

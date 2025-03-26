@@ -59,12 +59,6 @@ body {
         .parcelamento__formulario {
             margin-bottom: 20px;
 
-            @each $selectors, $width in $input-widths {
-                #{$selectors} {
-                    width: $width;
-                }
-            }
-
             .parcelamento__label--obrigatorio {
                 color: $cor-erro;
             }
@@ -157,7 +151,10 @@ body {
         .parcelamento__formulario-inline {
             display: flex;
             justify-content: space-between;
+        }
 
+        .parcelamento__formulario-inline-dois>.parcelamento__formulario {
+            flex: 0 0 30%;
         }
 
         button[type="submit"] {

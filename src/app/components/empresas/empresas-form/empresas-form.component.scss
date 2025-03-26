@@ -17,7 +17,7 @@ body {
     box-sizing: border-box;
 }
 
-.cadastro {
+.empresa {
     transform: scale(0.9);
     position: relative;
     max-width: 2000px;
@@ -40,11 +40,11 @@ body {
         margin: 5px;
     }
 
-    .cadastro__subtitulo {
+    .empresa__subtitulo {
         text-align: center;
     }
 
-    .cadastro__alerta {
+    .empresa__alerta {
         padding: 15px;
         margin-bottom: 15px;
         border-radius: $raio-borda;
@@ -60,7 +60,7 @@ body {
         }
     }
 
-    .cadastro__socio {
+    .empresa__socio {
         border: 1px solid $cor-secundaria;
         border-radius: $raio-borda;
         padding: 10px;
@@ -107,22 +107,8 @@ body {
             margin-bottom: 20px;
         }
 
-        .cadastro__grupo {
+        .empresa__grupo {
             margin-bottom: 20px;
-
-            @each $selectors, $width in $input-widths {
-                #{$selectors} {
-                    width: $width;
-                }
-            }
-
-            #tipoEmpresa {
-                width: 17.5em;
-            }
-
-            #email {
-                width: 30em;
-            }
 
             label {
                 display: block;
@@ -130,7 +116,7 @@ body {
                 font-weight: bold;
             }
 
-            .cadastro__label--obrigatorio {
+            .empresa__label--obrigatorio {
                 color: $cor-erro;
             }
 
@@ -213,7 +199,7 @@ body {
             }
         }
 
-        .cadastro__botoes--grupo {
+        .empresa__botoes--grupo {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
@@ -226,7 +212,7 @@ body {
                 cursor: pointer;
                 font-weight: bold;
 
-                &.cadastro__botao--adicionar {
+                &.empresa__botao--adicionar {
                     background-color: $cor-secundaria;
                     color: $cor-primaria;
 
@@ -235,7 +221,7 @@ body {
                     }
                 }
 
-                &.cadastro__botao--cadastrar-socio {
+                &.empresa__botao--cadastrar-socio {
                     background-color: $cor-destaque;
                     color: $cor-primaria;
 
@@ -246,9 +232,55 @@ body {
             }
         }
 
-        .cadastro__grupo-formulario--inline {
+
+        .empresa__grupo-formulario--inline {
             display: flex;
             justify-content: space-between;
+        }
+
+        .empresa__grupo-formulario--inline-primeiro-menor>.empresa__grupo {
+            flex: 0 0 10%;
+
+            &:nth-child(2) {
+                flex: 0 0 61.4%;
+            }
+
+            &:nth-child(3) {
+                flex: 0 0 26%;
+            }
+
+            select {
+                width: 100%;
+            }
+
+        }
+
+        .empresa__grupo-formulario--inline-dois>.empresa__grupo {
+            flex: 0 0 35%;
+        }
+
+        .empresa__grupo-formulario--inline-primeiro-maior>.empresa__grupo {
+            flex: 0 0 25%;
+
+            &:first-child {
+                flex: 0 0 47.4%;
+            }
+        }
+
+        .empresa__grupo-formulario--inline-meio-maior>.empresa__grupo {
+            flex: 0 0 15%;
+
+            &:nth-child(2) {
+                flex: 0 0 67.4%;
+            }
+        }
+
+        .empresa__grupo-formulario--inline-quatro>.empresa__grupo {
+            flex: 0 0 24%;
+
+            select {
+                width: 100%;
+            }
         }
 
         button[type="submit"] {
@@ -295,6 +327,7 @@ body {
         box-shadow: $sombra-caixa;
         text-align: center;
         width: 300px;
+        gap: 2em;
 
         p {
             font-size: 16px;
@@ -316,6 +349,27 @@ body {
             &:hover {
                 background-color: darken($cor-destaque, 30%);
             }
+
+        }
+
+        .popup__overlay--content--positivo {
+            background: $cor-botao-positivo;
+            color: white;
+            margin-right: 4em;
+
+            &:hover {
+                background-color: darken($cor-botao-positivo, 10%);
+            }
+        }
+
+        .popup__overlay--content--negativo {
+            background: $cor-botao-negativo;
+            color: white;
+            margin-left: 4em;
+
+            &:hover {
+                background-color: darken($cor-botao-negativo, 10%);
+            }
         }
     }
 }
@@ -328,47 +382,29 @@ select[readonly] {
     cursor: not-allowed;
 }
 
-@media only screen and (max-width: 1350px) {
-    .cadastro__grupo-formulario--inline {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
 
-    .cadastro__grupo-formulario--inline>.cadastro__grupo {
-        flex: 0 0 calc(50% - 20px);
-        box-sizing: border-box;
-    }
 
-    .cadastro form input,
-    .cadastro form select {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-    }
-}
+@media only screen and (max-width: 860px) {
 
-@media only screen and (max-width: 800px) {
-
-    .cadastro form input,
-    .cadastro form select {
+    .empresa form input,
+    .empresa form select {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
     }
 
-    .cadastro {
+    .empresa {
         max-width: 100%;
         padding: 20px;
         transform: scale(1);
     }
 
-    .cadastro form {
+    .empresa form {
         fieldset {
             padding: 15px;
         }
 
-        .cadastro__grupo {
+        .empresa__grupo {
             margin-bottom: 15px;
 
             label {
@@ -376,15 +412,15 @@ select[readonly] {
             }
         }
 
-        .cadastro__grupo-formulario--inline {
+        .empresa__grupo-formulario--inline {
             display: block;
 
-            >.cadastro__grupo {
+            >.empresa__grupo {
                 margin-bottom: 15px;
             }
         }
 
-        .cadastro__botoes--grupo {
+        .empresa__botoes--grupo {
             flex-direction: column;
             align-items: stretch;
 

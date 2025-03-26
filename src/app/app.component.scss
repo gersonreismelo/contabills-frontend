@@ -1,13 +1,3 @@
-/**Espaçamento dos inputs dos formulários**/
-$input-widths: (
-    "#numeroEmpresa, #cepEmpresa, #dataEmissaoCnhSocio, #dataValidadeCnhSocio, #cepSocio, #numeroSocio": 10em,
-    "#dataEmissaoRgSocio": 13em,
-    "#dataNascimentoSocio, #complementoEmpresa, #cnpj, #iptu, #telefone, #capitalSocialEmpresa, #bairroEmpresa, #cidadeEmpresa, #ufEmpresa, #cpfSocio, #rgSocio, #cnhSocio, #nacionalidadeSocio, #profissaoSocio, #bairroSocio, #ufSocio, #cidadeSocio, #complementoSocio": 16em,
-    "#estadoCivilSocio, #tipoDeComunhaoSocio": 17.4em,
-    "#tipoParcelamento, #valorParcela, #nomeSocio, #nomeMaeSocio, #nomePaiSocio, #logradouroSocio": 25em,
-    "#razaoSocial, #logradouroEmpresa": 39em
-);
-
 /**Global SCSS**/
 $cor-primaria: #2c3e50;
 $cor-botao-editar: #ffa500;
@@ -17,8 +7,8 @@ $cor-fundo-cartao-hover: #2c3e50;
 $cor-texto-principal: #f5f5f5;
 $cor-texto-escuro: #333;
 $cor-subtitulo: #007a62;
-$cor-botao-positivo: #3498db;
-$cor-botao-negativo: #27ae60;
+$cor-botao-positivo: #27ae60;
+$cor-botao-negativo: #ff4d4d;
 $cor-modal-filtro: #3d3977;
 $cor-modal-fundo: rgba(0, 0, 0, 0.7);
 $cor-modal-certeza: linear-gradient(to right, darken($cor-modal-filtro, 30%), $cor-modal-filtro);
@@ -47,5 +37,59 @@ $cor-total: #25609b;
 $cor-faltante: #8B0000;
 
 @function cor-transparente($cor, $porcentagem) {
-    @return rgba(red($cor), green($cor), blue($cor), $porcentagem);
+  @return rgba(red($cor), green($cor), blue($cor), $porcentagem);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.component-class {
+  flex: 1;
+}
+
+.popup__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &--conteudo {
+    background: $cor-primaria;
+    padding: 20px;
+    border-radius: $raio-borda;
+    box-shadow: $sombra-caixa;
+    text-align: center;
+    width: 300px;
+
+    p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: $cor-texto-principal;
+    }
+
+    button {
+      background: $cor-destaque;
+      color: $cor-primaria;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: $raio-borda;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: darken($cor-destaque, 30%);
+      }
+    }
+  }
 }

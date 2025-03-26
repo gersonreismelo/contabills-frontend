@@ -20,6 +20,8 @@ export class SociosListComponent implements OnInit {
   public MensagemErro: string | null = null;
   public exibirModalExclusao: boolean = false;
   private socioParaExcluir: any = null;
+  public exibirPopupSucesso: boolean = false;
+
 
   constructor(
     private sociosService: SociosService,
@@ -79,9 +81,14 @@ export class SociosListComponent implements OnInit {
       next: () => {
         this.carregarSocios();
         this.cancelarExclusao();
+        this.exibirPopupSucesso = true;
       },
       error: (err) => this.lidarComErro(err, 'excluir o sócio')
     });
+  }
+
+  fecharPopupSucesso(): void {
+    this.exibirPopupSucesso = false;
   }
 
   private lidarComErro(error: HttpErrorResponse, endpoint: string) {

@@ -14,7 +14,7 @@
                                 class="parcelamento__label--obrigatorio">*</span></label>
                         <input type="number" id="apelidoId" [(ngModel)]="parcelamento.empresa.apelidoId"
                             name="apelidoId" formControlName="apelidoId" maxlength="7" [required]="true"
-                            [placeholder]="isEditMode ? 'Digite o apelidoId da empresa' : ''" (change)="isEditMode "
+                            [placeholder]="isEditMode ? 'Digite o apelidoId da empresa' : ''" (blur)="buscarEmpresa()"
                             (input)="limitarEntrada($event, 99999999)" [readonly]="isEditMode">
                         <div
                             *ngIf="FormularioDeParcelamento.get('empresa.apelidoId')?.dirty && FormularioDeParcelamento.get('empresa.apelidoId')?.invalid">
@@ -26,28 +26,33 @@
                                 empresa
                                 deve ser maior que 0.</small>
                         </div>
+                        <div *ngIf="parcelamento.empresa.razaoSocial">
+                            <p><strong>Nome da Empresa: {{ parcelamento.empresa.razaoSocial }}</strong></p>
+                        </div>
                     </div>
                 </fieldset>
             </div>
 
             <div class="parcelamento__formulario">
-                <label for="numeroParcelamento">Número da Parcela <span
+                <label for="numeroParcelamento">Número de Registro da Parcela <span
                         class="parcelamento__label--obrigatorio">*</span></label>
                 <input type="number" id="numeroParcelamento" [(ngModel)]="parcelamento.numeroParcelamento"
                     name="numeroParcelamento" formControlName="numeroParcelamento" required
                     (input)="limitarEntrada($event, 9999999999999)" [readonly]="isEditMode">
                 <div
                     *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.dirty && FormularioDeParcelamento.get('numeroParcelamento')?.invalid">
-                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('required')">Número da
+                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('required')">Número de
+                        registro da
                         parcela é
                         obrigatório.</small>
-                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('min')">Número da parcela
+                    <small *ngIf="FormularioDeParcelamento.get('numeroParcelamento')?.hasError('min')">Número de
+                        registro da parcela
                         deve
                         ser maior que 0.</small>
                 </div>
             </div>
 
-            <div class="parcelamento__formulario-inline">
+            <div class="parcelamento__formulario-inline parcelamento__formulario-inline-dois">
                 <div class="parcelamento__formulario">
                     <label for="tipoParcelamento">Tipo de Parcelamento <span
                             class="parcelamento__label--obrigatorio">*</span></label>
@@ -110,5 +115,12 @@
     <div class="popup__overlay--content">
         <p>{{ mensagemDeErro }}</p>
         <button (click)="fecharPopup()">Fechar</button>
+    </div>
+</div>
+
+<div class="popup__overlay" *ngIf="exibirModalSucesso">
+    <div class="popup__overlay--content">
+        <p>{{ mensagemSucesso }}</p>
+        <button (click)="fecharModalSucesso()">Fechar</button>
     </div>
 </div>

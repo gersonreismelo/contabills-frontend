@@ -26,6 +26,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   novaFotoUrl: string | null = null;
   novaSenha = '';
   confirmarNovaSenha = '';
+  exibirPopupSucessoFoto = false;
+  exibirPopupSucessoDados = false;
+
+  erroNome: string = '';
+  erroSenha: string = '';
+  erroConfirmarSenha: string = '';
+  erroTelefone: string = '';
 
   constructor(
     private authService: AuthService,
@@ -38,8 +45,93 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.carregarDadosUsuario();
   }
 
+  validarNome() {
+    if (!this.usuario.nome || this.usuario.nome.trim() === '') {
+      this.erroNome = 'O nome é obrigatório.';
+    } else if (this.usuario.nome.trim().length < 3) {
+      this.erroNome = 'O nome deve ter pelo menos 3 caracteres.';
+    } else {
+      this.erroNome = '';
+    }
+  }
+
+  validarSenhas() {
+    if (this.novaSenha && this.novaSenha.trim() !== '') {
+      if (this.novaSenha.trim().length < 8) {
+        this.erroSenha = 'A senha deve ter pelo menos 8 caracteres.';
+      } else {
+        this.erroSenha = '';
+      }
+      if (this.novaSenha !== this.confirmarNovaSenha) {
+        this.erroConfirmarSenha = 'As senhas não coincidem.';
+      } else {
+        this.erroConfirmarSenha = '';
+      }
+    } else {
+      this.erroSenha = '';
+      this.erroConfirmarSenha = '';
+    }
+  }
+
+  validarTelefone() {
+    if (!this.usuario.telefone || this.usuario.telefone.trim() === '') {
+      this.erroTelefone = 'O telefone é obrigatório.';
+      return;
+    }
+    const telefoneFormatado = this.usuario.telefone.replace(/\D/g, '');
+    if (telefoneFormatado.length < 10) {
+      this.erroTelefone = 'O telefone deve conter o DDD e ter pelo menos 8 dígitos no número.';
+    } else {
+      this.erroTelefone = '';
+    }
+  }
+
   eitarPerfil(): void {
     this.isEditing = true;
+  }
+
+  onTelefoneChange(value: string): void {
+    let digits = value.replace(/\D/g, '');
+
+    let formatted = '';
+
+    if (!digits) {
+      this.usuario.telefone = '';
+      this.validarTelefone();
+      return;
+    }
+
+    if (digits.length <= 2) {
+      formatted = `(${digits}`;
+    } else {
+      formatted = `(${digits.substring(0, 2)}) ${digits.substring(2)}`;
+    }
+
+    if (digits.length > 6) {
+      const total = digits.length;
+      const bloco = total === 11 ? 5 : 4;
+
+      const parte1 = digits.substring(0, 2);           // DDD
+      const parte2 = digits.substring(2, 2 + bloco);   // Primeiros 4 ou 5
+      const parte3 = digits.substring(2 + bloco);      // Restante
+
+      formatted = `(${parte1}) ${parte2}-${parte3}`;
+    }
+
+    this.usuario.telefone = formatted;
+
+    this.validarTelefone();
+  }
+
+
+  formatarTelefone(input: string): string {
+    let numero = input.replace(/\D/g, '');
+    if (numero.length === 10) {
+      return `(${numero.substring(0, 2)}) ${numero.substring(2, 6)}-${numero.substring(6, 10)}`;
+    } else if (numero.length === 11) {
+      return `(${numero.substring(0, 2)}) ${numero.substring(2, 7)}-${numero.substring(7, 11)}`;
+    }
+    return input;
   }
 
   cancelarEdicao(): void {
@@ -48,28 +140,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   salvarAlteracoes(): void {
+    this.validarNome();
+    this.validarTelefone();
+    this.validarSenhas();
+
+    if (this.erroNome || this.erroTelefone || this.erroSenha || this.erroConfirmarSenha) {
+      alert('Por favor, corrija os erros antes de salvar.');
+      return;
+    }
+
     let dataFormatada = null;
     if (this.usuario.data) {
       dataFormatada = new Date(this.usuario.data).toISOString().split('T')[0];
     }
 
     const updates: any = {
-      nome: this.usuario.nome,
+      nome: this.usuario.nome.trim(),
       telefone: this.usuario.telefone,
       data: dataFormatada
     };
 
     if (this.novaSenha.trim()) {
-      console.log(this.novaSenha)
       updates.senha = this.novaSenha;
-    } else {
-      console.log("coco")
     }
 
     this.usuarioService.atualizarUsuario(this.usuario.id, updates).subscribe(
       () => {
         this.isEditing = false;
         this.carregarDadosUsuario();
+        this.exibirPopupSucessoDados = true;
       },
       error => {
         this.lidarComErro('Erro ao atualizar perfil', error);
@@ -107,6 +206,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.usuarioService.buscarUsuarioPorEmail(email).subscribe(
         usuario => {
           this.usuario = usuario;
+          this.novaSenha = '';
+          this.confirmarNovaSenha = '';
           if (this.usuario.id) {
             this.carregarFotoUsuario(this.usuario.id);
           }
@@ -129,6 +230,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 
   mudancaArquivo(event: any): void {
     const file = event.target.files[0];
@@ -167,9 +269,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
       this.usuarioService.atualizarFoto(this.usuario.id, formData).subscribe(
         () => {
-          this.carregarDadosUsuario();
-          this.novaFoto = null;
-          this.exibirModalConfirmacaoFoto = false;
+          window.location.reload();
         },
         error => {
           this.lidarComErro('Erro ao atualizar foto de perfil', error);
@@ -178,10 +278,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-
   cancelarMudancaFoto(): void {
     this.novaFoto = null;
     this.novaFotoUrl = null;
     this.exibirModalConfirmacaoFoto = false;
+  }
+
+  fecharPopupSucessoDados(): void {
+    this.exibirPopupSucessoDados = false;
+  }
+
+  fecharPopupSucessoFoto(): void {
+    this.exibirPopupSucessoFoto = false;
   }
 }

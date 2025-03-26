@@ -12,6 +12,17 @@
   }
 }
 
+.erro {
+  color: $cor-erro;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 5px 10px;
+  border: 1px solid $cor-erro;
+  border-radius: $raio-borda;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .profile {
   background: $cor-fundo-cartao;
   padding: 50px 20px;
@@ -44,7 +55,7 @@
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: darken($cor-total, 10%);
+        background-color: darken($cor-botao-negativo, 10%);
       }
     }
   }
@@ -71,7 +82,6 @@
         &:hover {
           transform: scale(1.05);
         }
-
       }
 
       &--padrao {
@@ -132,23 +142,27 @@
       transition: background-color 0.3s;
     }
 
-    .perfil__botao-salvar {
+    .perfil__botao {
       background-color: $cor-total;
       color: white;
       margin-right: 10px;
+    }
 
+    .perfil__botao-salvar {
       &:hover {
-        background-color: darken($cor-total, 10%);
+        background-color: darken($cor-botao-positivo, 10%);
       }
     }
 
-    .perfil__botao-cancelar,
-    .perfil__botao-editar {
-      background-color: $cor-total;
-      color: white;
-
+    .perfil__botao-cancelar {
       &:hover {
-        background-color: darken($cor-total, 10%);
+        background-color: darken($cor-botao-negativo, 10%);
+      }
+    }
+
+    .perfil__botao-editar {
+      &:hover {
+        background-color: darken($cor-total, 20%);
       }
     }
   }
@@ -175,6 +189,7 @@
     width: 90%;
     max-width: 400px;
     animation: fadeIn 0.3s ease-in-out;
+    font-weight: 800;
 
     p {
       font-size: 1.1rem;
@@ -201,22 +216,18 @@
         cursor: pointer;
         font-size: 1rem;
         transition: background-color 0.3s;
+        background-color: $cor-total;
+        color: white;
 
         &:first-child {
-          background-color: $cor-total;
-          color: white;
-
           &:hover {
-            background-color: darken($cor-total, 10%);
+            background-color: darken($cor-botao-positivo, 10%);
           }
         }
 
         &:last-child {
-          background-color: $cor-total;
-          color: white;
-
           &:hover {
-            background-color: darken($cor-total, 10%);
+            background-color: darken($cor-botao-negativo, 10%);
           }
         }
       }

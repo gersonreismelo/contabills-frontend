@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CpfValidatorService } from '../../global/service/cpf-validator.service';
+import { FormatUtilsService } from '../../global/service/format-utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SociosFormService {
-  constructor(private fb: FormBuilder, private cpfValidatorService: CpfValidatorService) { }
+  constructor(
+    private fb: FormBuilder,
+    private cpfValidatorService: CpfValidatorService,
+    private formatUtilsService: FormatUtilsService
+  ) { }
 
   criarFormulario(): FormGroup {
     return this.fb.group({
@@ -16,14 +21,14 @@ export class SociosFormService {
       dataDeEmissaoRg: ['', Validators.required],
       cnh: [''],
       dataDeEmissaoCnh: [''],
-      dataDeValidadeCnh: [''],
+      dataDeValidadeCnh: ['', [Validators.required, this.formatUtilsService.dataFuturaValidator]],
       dataNascimento: ['', [Validators.required]],
       nacionalidade: ['', [Validators.required]],
       estadoCivil: ['', [Validators.required]],
       tipoDeComunhao: ['', [Validators.required]],
       profissao: ['', [Validators.required]],
       nomeDaMae: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      nomeDoPai: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      nomeDoPai: ['', [Validators.minLength(3), Validators.maxLength(100)]],
       enderecoSocio: this.fb.group({
         logradouro: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
         numero: ['', [Validators.required, Validators.maxLength(7)]],

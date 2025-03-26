@@ -85,3 +85,10 @@
     <button (click)="fecharPopup()">Fechar</button>
   </div>
 </div>
+
+<div class="popup__overlay" *ngIf="exibirPopupSucesso">
+  <div class="popup__overlay--conteudo">
+    <p>Usuário cadastrado com sucesso!</p>
+    <button (click)="fecharPopupSucesso()">Ok</button>
+  </div>
+</div>
