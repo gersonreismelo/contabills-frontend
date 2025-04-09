@@ -32,9 +32,10 @@
 
 
     <div class="parcelamentos__botoes">
-      <button (click)="abrirConfirmacaoEnvio(parcelamento)" [disabled]="parcelamento.enviadoMesAtual">
-        Enviado
+      <button (click)="abrirModalUpload(parcelamento)" [disabled]="parcelamento.enviadoMesAtual">
+        Enviar PDF
       </button>
+
 
       <button class="parcelamentos__botoes--editar"
         (click)="navegarParaEditarParcelamento(parcelamento.numeroParcelamento)">
@@ -90,5 +91,32 @@
   <div class="popup__overlay--conteudo">
     <p>Parcelamento Enviado com sucesso!</p>
     <button (click)="fecharPopupEnvioSucesso()">Ok</button>
+  </div>
+</div>
+
+
+<div class="modal" *ngIf="showUploadModal">
+  <div class="modal__conteudo">
+    <h3>Enviar PDF da Parcela</h3>
+    <input type="file" (change)="selecionarArquivo($event)" accept="application/pdf" />
+
+    <div class="modal__form">
+      <div class="form-group">
+        <label for="subject">Assunto</label>
+        <input type="text" id="subject" [(ngModel)]="subjectMensagem" placeholder="Insira o assunto" />
+      </div>
+      <div class="form-group">
+        <label for="textMensagem">Mensagem</label>
+        <textarea id="textMensagem" [(ngModel)]="textMensagem" rows="5" placeholder="Digite a mensagem aqui"></textarea>
+      </div>
+    </div>
+    <div class="modal__botoes">
+      <button [disabled]="!pdfSelecionado" (click)="abrirConfirmacaoEnvio()">
+        Avançar
+      </button>
+      <button (click)="cancelarUpload()">
+        Cancelar
+      </button>
+    </div>
   </div>
 </div>

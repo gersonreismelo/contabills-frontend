@@ -52,4 +52,12 @@ export class ParcelamentosService {
     return this.http.delete(`${this.apiUrl}/${numeroParcelamento}`, { headers: this.getAuthHeaders() });
   }
 
+  enviarPdfParcelamento(idParcelamento: number, formData: FormData, subject: string, text: string): Observable<any> {
+    const url = `${this.apiUrl}/enviar-pdf/${idParcelamento}`;
+    formData.append('subject', subject);
+    formData.append('text', text);
+
+    const headers = this.getAuthHeaders().delete('Content-Type');
+    return this.http.post(url, formData, { headers, responseType: 'text' });
+  }
 }

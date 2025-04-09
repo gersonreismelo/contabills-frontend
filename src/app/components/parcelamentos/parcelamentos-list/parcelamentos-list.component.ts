@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../global/service/session.service';
+import { UsuarioService } from '../../usuario/usuario.service';
 import { Parcelamento } from '../parcelamento';
 import { ParcelamentosService } from '../parcelamentos.service';
 
 @Component({
   selector: 'app-parcelamento-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './parcelamentos-list.component.html',
   styleUrls: ['./parcelamentos-list.component.scss']
 })
@@ -26,15 +28,36 @@ export class ParcelamentosListComponent implements OnInit {
   public errorMessage: string = '';
   public exibirPopupSucesso: boolean = false;
   public exibirPopupEnvioSucesso: boolean = false;
+  public showUploadModal: boolean = false;
+  public pdfSelecionado: File | null = null;
+  public usuario: any = null;
+  public subjectMensagem: string = '';
+  public textMensagem: string = '';
 
   constructor(
     private parcelamentosService: ParcelamentosService,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {
     this.buscarParcelamentos();
+    this.carregarDadosUsuario();
+  }
+
+  private carregarDadosUsuario(): void {
+    const email = localStorage.getItem('userEmail');
+    if (email) {
+      this.usuarioService.buscarUsuarioPorEmail(email).subscribe(
+        data => {
+          this.usuario = data;
+        },
+        error => {
+          console.error('Erro ao carregar dados do usuário', error);
+        }
+      );
+    }
   }
 
   buscarParcelamentos(): void {
@@ -45,6 +68,26 @@ export class ParcelamentosListComponent implements OnInit {
       next: (data) => this.processarDadosParcelamentos(data),
       error: (error) => this.lidarComErro(error, 'parcelamentos')
     });
+  }
+
+  abrirModalUpload(parcelamento: Parcelamento): void {
+    this.parcelamentoSelecionado = parcelamento;
+    this.pdfSelecionado = null;
+    this.showUploadModal = true;
+
+    const nomeEmpresa = parcelamento.empresa?.razaoSocial || 'Empresa';
+    const nomeUsuario = this.usuario?.nome || 'Cliente';
+    this.subjectMensagem = `Parcelamento da ${nomeEmpresa} - Boleto para pagamento`;
+    this.textMensagem = `Olá ${nomeEmpresa},\nSegue em anexo o boleto do parcelamento para pagamento.\n\nAtenciosamente,\n${nomeUsuario}.`;
+  }
+
+
+
+  selecionarArquivo(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      this.pdfSelecionado = input.files[0];
+    }
   }
 
   processarDadosParcelamentos(parcelasData: any): void {
@@ -92,26 +135,38 @@ export class ParcelamentosListComponent implements OnInit {
     this.router.navigate([`/editar-parcelamento/${numeroParcelamento}`]);
   }
 
-  abrirConfirmacaoEnvio(parcelamento: Parcelamento): void {
-    this.parcelamentoSelecionado = parcelamento;
+  abrirConfirmacaoEnvio(): void {
+    this.showUploadModal = false;
     this.showModal = true;
   }
 
   marcarComoEnviado(): void {
-    if (this.parcelamentoSelecionado) {
-      const atualizacaoParcial = {
-        enviadoMesAtual: true
-      };
+    if (this.parcelamentoSelecionado && this.pdfSelecionado) {
+      const formData = new FormData();
+      formData.append('file', this.pdfSelecionado);
 
-      this.parcelamentosService.editarParcelamento(this.parcelamentoSelecionado.numeroParcelamento, atualizacaoParcial).subscribe({
+      const idParcelamento = this.parcelamentoSelecionado.numeroParcelamento;
+
+      const textMensagemHtml = this.textMensagem.replace(/\n/g, '<br/>');
+
+      this.parcelamentosService.enviarPdfParcelamento(
+        idParcelamento,
+        formData,
+        this.subjectMensagem,
+        textMensagemHtml
+      ).subscribe({
         next: () => {
           this.buscarParcelamentos();
           this.showModal = false;
           this.exibirPopupEnvioSucesso = true;
         },
-        error: (error) => this.lidarComErro(error, 'atualizar parcelamento')
+        error: (error) => this.lidarComErro(error, 'enviar PDF do parcelamento')
       });
     }
+  }
+
+  cancelarUpload(): void {
+    this.showUploadModal = false;
   }
 
   cancelarEnvio(): void {
